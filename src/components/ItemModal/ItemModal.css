@@ -1,0 +1,31 @@
+.modal__content_type_image {
+  max-width: 498px;
+  max-height: 610px;
+  margin-top: 106px;
+  width: 100%;
+  border-radius: 20px;
+  background-color: #d9d9d9;
+  padding: 0;
+}
+
+.modal__image {
+  max-width: 498px;
+  max-height: 498px;
+  width: 100%;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.modal__caption {
+  border-radius: 16px;
+  margin: 0;
+}
+
+.modal__footer {
+  padding: 20px 32px 32px 32px;
+}
+
+.modal__close_type_image {
+  background-image: url('/src/images/white-close-icon.svg');
+  background-color: transparent;
+}
