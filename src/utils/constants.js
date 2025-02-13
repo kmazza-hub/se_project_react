@@ -1,7 +1,7 @@
 export const weatherOptions = [
   {
     day: true,
-    condition: "clear",
+    condition: "sunny",
     url: new URL("../images/day/clear.png", import.meta.url).href,
   },
 
@@ -14,12 +14,12 @@ export const weatherOptions = [
   {
     day: true,
     condition: "rainy",
-    url: new URL("../images/day/rainy.png", import.meta.url).href,
+    url: new URL("../images/day/rain.png", import.meta.url).href,
   },
 
   {
     day: false,
-    condition: "clear",
+    condition: "sunny",
     url: new URL("../images/night/clear.png", import.meta.url).href,
   },
 
@@ -32,7 +32,7 @@ export const weatherOptions = [
   {
     day: false,
     condition: "rainy",
-    url: new URL("../images/night/rainy.png", import.meta.url).href,
+    url: new URL("../images/night/rain.png", import.meta.url).href,
   },
 ];
 

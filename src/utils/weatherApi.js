@@ -10,21 +10,32 @@ export const getWeather = ({ latitude, longitude }, APIkey) => {
   });
 };
 
-export const filterWeatherData = (data) => {
-  console.log(data);
-  const result = {};
-  const date = new Date();
-  result.city = data.name;
-  result.temp = { F: data.main.temp };
-  result.type = getWeatherType(result.temp.F);
-  result.condition = data.weather[0].main.toLowerCase();
-  result.isDay = isDay(data.sys, Date.now());
-  return result;
+const normalizeCondition = (condition) => {
+  const mapping = {
+    clear: "clear",
+    rain: "rain",
+    "light rain": "rain",
+    "moderate rain": "rain",
+    thunderstorm: "storm",
+    drizzle: "rain",
+    snow: "cloudy",
+    mist: "cloudy",
+    smoke: "cloudy",
+    haze: "cloudy",
+    dust: "cloudy",
+    fog: "cloudy",
+    sand: "cloudy",
+    ash: "cloudy",
+    squall: "cloudy",
+    tornado: "storm",
+    clouds: "cloudy",
+  };
+  return mapping[condition] || "cloudy"; 
 };
 
-const isDay = ({ sunrise, sunset }, currentTime) => {
-  const now = Date.now();
-  return sunrise * 1000 < now && now < sunset * 1000;
+const isDay = ({ sunrise, sunset }) => {
+  const now = Math.floor(Date.now() / 1000); 
+  return sunrise < now && now < sunset;
 };
 
 const getWeatherType = (temperature) => {
@@ -35,4 +46,17 @@ const getWeatherType = (temperature) => {
   } else {
     return "cold";
   }
+};
+
+export const filterWeatherData = (data) => {
+  console.log("Raw Weather Data:", data);
+  const result = {
+    city: data.name,
+    temp: { F: data.main.temp },
+    type: getWeatherType(data.main.temp),
+    condition: normalizeCondition(data.weather[0].main.toLowerCase()),
+    isDay: isDay(data.sys),
+  };
+  console.log("Filtered Weather Data:", result);
+  return result;
 };
