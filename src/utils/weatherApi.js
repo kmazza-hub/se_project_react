@@ -1,62 +1,43 @@
+import { checkRes } from './api'; // Import the checkRes function from api.js
+
+// Function to get weather data from OpenWeather API
 export const getWeather = ({ latitude, longitude }, APIkey) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
-  ).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Error: ${res.status}`);
-    }
-  });
+  )
+    .then(checkRes) // Use checkRes to handle the response
+    .catch((error) => {
+      console.error("Failed to fetch weather data:", error);
+      // Optionally, you can return a fallback value or handle the error more gracefully
+    });
 };
 
-const normalizeCondition = (condition) => {
-  const mapping = {
-    clear: "clear",
-    rain: "rain",
-    "light rain": "rain",
-    "moderate rain": "rain",
-    thunderstorm: "storm",
-    drizzle: "rain",
-    snow: "cloudy",
-    mist: "cloudy",
-    smoke: "cloudy",
-    haze: "cloudy",
-    dust: "cloudy",
-    fog: "cloudy",
-    sand: "cloudy",
-    ash: "cloudy",
-    squall: "cloudy",
-    tornado: "storm",
-    clouds: "cloudy",
+// Function to filter the weather data
+export const filterWeatherData = (data) => {
+  const result = {};
+  result.city = data.name; // City name
+  result.temp = {
+    F: Math.round(data.main.temp), // Temperature in Fahrenheit
+    C: Math.round(((data.main.temp - 32) * 5) / 9), // Convert to Celsius
   };
-  return mapping[condition] || "cloudy"; 
+  result.type = getWeatherType(result.temp.F); // Get the type of weather based on temperature
+  result.condition = data.weather[0].main.toLowerCase(); // Weather condition (clear, rain, etc.)
+  result.isDay = isDay(data.sys, Date.now()); // Check if it's day or night based on sunrise/sunset
+  return result;
 };
 
-const isDay = ({ sunrise, sunset }) => {
-  const now = Math.floor(Date.now() / 1000); 
-  return sunrise < now && now < sunset;
+// Function to determine if it's day or night based on sunrise/sunset times
+const isDay = ({ sunrise, sunset }, now) => {
+  return sunrise * 1000 < now && now < sunset * 1000; // Compare the current time with sunrise/sunset
 };
 
+// Function to categorize the weather type based on the temperature in Fahrenheit
 const getWeatherType = (temperature) => {
   if (temperature > 86) {
-    return "hot";
+    return "hot"; // Above 86°F is considered hot
   } else if (temperature >= 66 && temperature < 86) {
-    return "warm";
+    return "warm"; // Between 66°F and 86°F is considered warm
   } else {
-    return "cold";
+    return "cold"; // Below 66°F is considered cold
   }
-};
-
-export const filterWeatherData = (data) => {
-  console.log("Raw Weather Data:", data);
-  const result = {
-    city: data.name,
-    temp: { F: data.main.temp },
-    type: getWeatherType(data.main.temp),
-    condition: normalizeCondition(data.weather[0].main.toLowerCase()),
-    isDay: isDay(data.sys),
-  };
-  console.log("Filtered Weather Data:", result);
-  return result;
 };
