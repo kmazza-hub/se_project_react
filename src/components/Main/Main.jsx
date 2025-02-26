@@ -8,7 +8,6 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnit
 function Main({ weatherData, onCardClick, clothingItems, handleDeleteClick }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
-  // Use defaultClothingItems if clothingItems is empty
   const itemsToRender = clothingItems.length > 0 ? clothingItems : defaultClothingItems;
 
   return (
