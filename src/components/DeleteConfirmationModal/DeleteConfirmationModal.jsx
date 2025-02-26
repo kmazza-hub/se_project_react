@@ -1,44 +1,45 @@
 import "./DeleteConfirmationModal.css";
-import closeButtonImage from "../../images/closebutton.svg";
+import CloseDel from "../../assets/CloseDel.svg";
 
-function DeleteConfirmationModal({
+export default function DeleteConfirmationModal({
   card,
-  handleCloseClick,
-  handleCardDelete,
+  closeActiveModal,
   isOpen,
+  handleDeleteCard,
 }) {
   return (
     <div className={`modal ${isOpen && "modal_opened"}`}>
       <div className="modal__delete-container">
         <button
-          onClick={handleCloseClick}
-          className="modal__close"
+          className="modal__close-del"
           type="button"
+          onClick={closeActiveModal}
         >
-          <img
-            className="modal__close-icon"
-            src={closeButtonImage}
-            alt="Close Button"
-          />
+          <img src={CloseDel} alt="close button" />
         </button>
-        <h2 className="modal__title">
-          Are you sure you want to delete this item? <br /> This action is
-          Irreversible.
-        </h2>
-        <div className="modal__actions">
-          <button
-            className="modal__confirm-button"
-            onClick={() => handleCardDelete(card)}
-          >
-            Yes, delete item
-          </button>
-          <button className="modal__cancel-button" onClick={handleCloseClick}>
-            Cancel
-          </button>
+        <div className="modal__content-del">
+          <h2 className="modal__title-del">
+            Are you sure you want to delete this item? <br /> This action is
+            Irreversible.
+          </h2>
+          <div className="modal__buttons">
+            <button
+              className="modal__confirm"
+              type="submit"
+              onClick={() => handleDeleteCard(card)}
+            >
+              Yes, delete item
+            </button>
+            <button
+              className="modal__cancel"
+              type="button"
+              onClick={closeActiveModal}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default DeleteConfirmationModal;

@@ -1,60 +1,62 @@
+@font-face {
+  font-family: CabinetGrotesk;
+  src: url("./vendor/Fonts/CabinetGrotesk-Medium.otf");
+}
+
 .header {
   display: flex;
   align-items: center;
   padding: 32px 0 28px;
-  max-width: 1360px;
-  height: 40px;
-  top: 32px;
-  left: 40px;
 }
 
 .header__logo {
   margin-right: 24px;
-  width: 89px;
-  height: 40px;
 }
 
-.header__date-and-location {
+.header__date-location {
   margin: 0;
-  width: 160px;
-  height: 24px;
-  top: 11px;
-  left: 113px;
-  font-family: "Cabinet Grotesk", sans-serif;
+  font-family: Cabinet Grotesk;
+  font-size: 20px;
   font-weight: 700;
-  size: 20px;
   line-height: 24px;
-  color: #000000;
 }
 
 .header__add-clothes-btn {
-  margin: 0 20px 0 auto;
-
-  height: 25px;
-  top: 8px;
-  left: 1015px;
-  color: #000000;
+  margin: 0 20px;
   border: none;
-  background: none;
-  white-space: nowrap;
+  font-family: Cabinet Grotesk;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  cursor: pointer;
+  background-color: transparent;
 }
 
 .header__user-container {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 12px;
-
-  height: 40px;
-  left: 1320px;
-  border: 1px;
-  border-radius: 50%;
-  color: #00000080;
 }
 
 .header__username {
   margin: 0;
-  top: 8px;
-  left: 1015px;
-  color: #000000;
+  font-family: Cabinet Grotesk;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24.8px;
+}
+
+.header__link {
+  text-decoration: none;
+  color: black;
+}
+
+@media screen and (max-width: 480px) {
+  .header {
+    display: flex;
+  }
+
+  .header__date-location {
+    font-size: 16px;
+  }
 }
