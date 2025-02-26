@@ -1,6 +1,7 @@
 const baseUrl = "http://localhost:3001";
 
 function checkRes(res) {
+  console.log("Response status:", res.status);
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 }
 
@@ -10,16 +11,16 @@ function getItems() {
 
 function addItem({ name, imageUrl, weather }) {
   return fetch(`${baseUrl}/items`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    method: "POST",
     body: JSON.stringify({ name, imageUrl, weather }),
   }).then(checkRes);
 }
 
-function deleteItem(cardToDelete) {
-  return fetch(`${baseUrl}/items/${cardToDelete}`, {
+function deleteItem(itemId) {
+  return fetch(`${baseUrl}/items/${itemId}`, {
     method: "DELETE",
   }).then(checkRes);
 }
