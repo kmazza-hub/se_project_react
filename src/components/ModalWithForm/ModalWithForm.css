@@ -35,11 +35,12 @@
   width: 20px;
   height: 20px;
   border: none;
-  color: #0000004d;
+  color: grey; /* Change color to grey */
   padding: 0;
   cursor: pointer;
   background-color: transparent;
 }
+
 
 .modal__content {
   position: relative;

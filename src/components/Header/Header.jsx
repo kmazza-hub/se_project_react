@@ -1,6 +1,6 @@
 import "./Header.css";
 import Logo from "../../assets/Logo.svg";
-import Avatar from "../../assets/Avatar.png";
+import myImage from "../../assets/M7.avif"; // Ensure this is correctly imported
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
 
@@ -29,7 +29,7 @@ function Header({ handleAddClick, weatherData }) {
       <Link to="/profile" className="header__link">
         <div className="header__user-container">
           <p className="header__username">Keith Mazza</p>
-          <img src={Avatar} alt="Terrence Tegegne" className="header__avatar" />
+          <img src={myImage} alt="My Picture" className="header__user-image" />
         </div>
       </Link>
     </header>

@@ -18,7 +18,19 @@ div.modal__content_type_image {
 }
 
 .modal__close {
-  color: grey;
+  .modal__close {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    color: grey; /* Change color to grey */
+    padding: 0;
+    cursor: pointer;
+    background-color: transparent;
+}
+
 }
 
 .modal__footer {
