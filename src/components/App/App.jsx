@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { register, login, getUserData } from "../../utils/auth";
-import { getClothingItems, likeItem, unlikeItem } from "../../utils/api"; // Import API functions
+import { getClothingItems, likeItem, unlikeItem } from "../../utils/api";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Profile from "../Profile/Profile";
 import ClothesSection from "../ClothesSection/ClothesSection";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import "./App.css"; 
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -33,13 +37,13 @@ function App() {
       .then((items) => {
         setClothingItems(items);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error("Error fetching items:", err));
   }, []);
 
   const handleRegister = (formData) => {
     register(formData)
       .then(() => handleLogin({ email: formData.email, password: formData.password }))
-      .catch((err) => console.log(err));
+      .catch((err) => console.error("Registration error:", err));
   };
 
   const handleLogin = ({ email, password }) => {
@@ -53,7 +57,7 @@ function App() {
         setIsLoggedIn(true);
         setIsLoginOpen(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error("Login error:", err));
   };
 
   const handleLogout = () => {
@@ -64,7 +68,6 @@ function App() {
 
   const handleCardLike = (item) => {
     const isLiked = item.likes.includes(currentUser._id);
-
     const likeAction = isLiked ? unlikeItem : likeItem;
 
     likeAction(item._id)
@@ -73,38 +76,50 @@ function App() {
           prevItems.map((i) => (i._id === updatedItem._id ? updatedItem : i))
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error("Like/unlike error:", err));
   };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="App">
-        {!isLoggedIn ? (
-          <>
-            <button onClick={() => setIsRegisterOpen(true)}>Sign Up</button>
-            <button onClick={() => setIsLoginOpen(true)}>Login</button>
-          </>
-        ) : (
-          <button onClick={handleLogout}>Logout</button>
-        )}
+      <Router>
+        <div className="App">
+          <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
 
-        <RegisterModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} onRegister={handleRegister} />
-        <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={handleLogin} />
+          <main>
+            <Routes>
+              <Route path="/" element={<ClothesSection clothingItems={clothingItems} onCardLike={handleCardLike} />} />
+              
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
 
-        <ProtectedRoute
-          path="/profile"
-          isLoggedIn={isLoggedIn}
-          component={Profile}
-        />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </main>
 
-        {/* Pass handleCardLike to ClothesSection */}
-        <ClothesSection
-          clothingItems={clothingItems}
-          onCardLike={handleCardLike}
-        />
-      </div>
+          <Footer />
+
+          {/* Modals */}
+          <RegisterModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} onRegister={handleRegister} />
+          <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={handleLogin} />
+
+          {/* Auth buttons (only if not logged in) */}
+          {!isLoggedIn && (
+            <div className="auth-buttons">
+              <button onClick={() => setIsRegisterOpen(true)}>Sign Up</button>
+              <button onClick={() => setIsLoginOpen(true)}>Login</button>
+            </div>
+          )}
+        </div>
+      </Router>
     </CurrentUserContext.Provider>
   );
 }
 
 export default App;
+
