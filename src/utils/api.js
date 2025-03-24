@@ -1,28 +1,27 @@
-const baseUrl = "http://localhost:3001";
+const BASE_URL = "http://localhost:3001"; 
 
-function checkRes(res) {
-  console.log("Response status:", res.status);
-  return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-}
+const getHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+});
 
-function getItems() {
-  return fetch(`${baseUrl}/items`).then(checkRes);
-}
+const fetchWithAuth = (url, options = {}) => {
+  return fetch(url, {
+    ...options,
+    headers: getHeaders(),
+    credentials: "include", 
+  }).then((res) => {
+    if (!res.ok) {
+      return Promise.reject(`Error ${res.status}: ${res.statusText}`);
+    }
+    return res.json();
+  });
+};
 
-function addItem({ name, imageUrl, weather }) {
-  return fetch(`${baseUrl}/items`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, imageUrl, weather }),
-  }).then(checkRes);
-}
+export const getClothingItems = () => fetchWithAuth(`${BASE_URL}/items`);
 
-function deleteItem(itemId) {
-  return fetch(`${baseUrl}/items/${itemId}`, {
-    method: "DELETE",
-  }).then(checkRes);
-}
+export const likeItem = (itemId) =>
+  fetchWithAuth(`${BASE_URL}/items/${itemId}/likes`, { method: "PUT" });
 
-export { checkRes, getItems, addItem, deleteItem };
+export const unlikeItem = (itemId) =>
+  fetchWithAuth(`${BASE_URL}/items/${itemId}/likes`, { method: "DELETE" });
