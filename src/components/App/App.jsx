@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { register, login, getUserData } from "../../utils/auth";
 import { getClothingItems, likeItem, unlikeItem } from "../../utils/api";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Profile from "../Profile/Profile";
 import ClothesSection from "../ClothesSection/ClothesSection";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import "./App.css"; 
+import "./App.css";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false); 
   const [clothingItems, setClothingItems] = useState([]);
+  const [error, setError] = useState(null); 
+  const [isRegistering, setIsRegistering] = useState(false); 
+
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -41,9 +48,13 @@ function App() {
   }, []);
 
   const handleRegister = (formData) => {
+    setIsRegistering(true); 
     register(formData)
       .then(() => handleLogin({ email: formData.email, password: formData.password }))
-      .catch((err) => console.error("Registration error:", err));
+      .catch((err) => {
+        setError("Registration failed. Please try again.");
+        setIsRegistering(false);
+      });
   };
 
   const handleLogin = ({ email, password }) => {
@@ -57,7 +68,10 @@ function App() {
         setIsLoggedIn(true);
         setIsLoginOpen(false);
       })
-      .catch((err) => console.error("Login error:", err));
+      .catch((err) => {
+        setError("Login failed. Please check your credentials.");
+        console.error("Login error:", err);
+      });
   };
 
   const handleLogout = () => {
@@ -67,7 +81,7 @@ function App() {
   };
 
   const handleCardLike = (item) => {
-    const isLiked = item.likes.includes(currentUser._id);
+    const isLiked = item.likes.includes(currentUser?._id);
     const likeAction = isLiked ? unlikeItem : likeItem;
 
     likeAction(item._id)
@@ -79,9 +93,18 @@ function App() {
       .catch((err) => console.error("Like/unlike error:", err));
   };
 
+  const handleToggleSwitchChange = () => {
+    setCurrentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
+  };
+
+  const handleProfileUpdate = (updatedUser) => {
+    setCurrentUser(updatedUser); 
+    setIsEditProfileOpen(false); 
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Router>
+      <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
         <div className="App">
           <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
 
@@ -93,7 +116,7 @@ function App() {
                 path="/profile"
                 element={
                   <ProtectedRoute isLoggedIn={isLoggedIn}>
-                    <Profile />
+                    <Profile onEditProfile={() => setIsEditProfileOpen(true)} />
                   </ProtectedRoute>
                 }
               />
@@ -105,8 +128,24 @@ function App() {
           <Footer />
 
           {/* Modals */}
-          <RegisterModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} onRegister={handleRegister} />
-          <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={handleLogin} />
+          <RegisterModal
+            isOpen={isRegisterOpen}
+            onClose={() => setIsRegisterOpen(false)}
+            onRegister={handleRegister}
+            isRegistering={isRegistering} 
+            error={error} 
+          />
+          <LoginModal
+            isOpen={isLoginOpen}
+            onClose={() => setIsLoginOpen(false)}
+            onLogin={handleLogin}
+          />
+          <EditProfileModal
+            isOpen={isEditProfileOpen}
+            currentUser={currentUser}
+            onClose={() => setIsEditProfileOpen(false)}
+            onUpdate={handleProfileUpdate} 
+          />
 
           {/* Auth buttons (only if not logged in) */}
           {!isLoggedIn && (
@@ -116,10 +155,9 @@ function App() {
             </div>
           )}
         </div>
-      </Router>
+      </CurrentTemperatureUnitContext.Provider>
     </CurrentUserContext.Provider>
   );
 }
 
 export default App;
-

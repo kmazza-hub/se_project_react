@@ -6,7 +6,6 @@
   "scripts": {
     "start": "react-scripts start",
     "server": "json-server --watch db.json --port 3001",
-    "dev": "vite",
     "dev": "vite --open",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disabled-directives --max-warnings 0",
