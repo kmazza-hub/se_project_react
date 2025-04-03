@@ -1,7 +1,7 @@
 const BASE_URL = "http://localhost:3001"; 
 
 export const register = ({ name, avatar, email, password }) => {
-  return fetch(`${BASE_URL}/signup`, {  
+  return fetch(`${BASE_URL}/auth/signup`, {  // ✅ Corrected path
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, avatar, email, password }),
@@ -22,7 +22,7 @@ export const register = ({ name, avatar, email, password }) => {
 };
 
 export const login = ({ email, password }) => {
-  return fetch(`${BASE_URL}/signin`, {  
+  return fetch(`${BASE_URL}/auth/signin`, {  // ✅ Corrected path
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),

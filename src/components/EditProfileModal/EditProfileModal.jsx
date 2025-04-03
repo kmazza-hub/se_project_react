@@ -65,7 +65,6 @@ const EditProfileModal = ({ isOpen, onClose, currentUser, onUpdate }) => {
   );
 };
 
-// Move the `updateUserProfile` function outside of the component
 export const updateUserProfile = async (updatedUser) => {
   const token = localStorage.getItem("jwt");
 
