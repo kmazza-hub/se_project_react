@@ -58,7 +58,7 @@ function App() {
   };
 
   const handleLogin = ({ email, password }) => {
-    login({ email, password })
+    return login({ email, password })
       .then((res) => {
         localStorage.setItem("jwt", res.token);
         return getUserData(res.token);
@@ -67,6 +67,7 @@ function App() {
         setCurrentUser(userData);
         setIsLoggedIn(true);
         setIsLoginOpen(false);
+        setError(null); 
       })
       .catch((err) => {
         setError("Login failed. Please check your credentials.");
@@ -81,6 +82,11 @@ function App() {
   };
 
   const handleCardLike = (item) => {
+    if (!isLoggedIn) {
+      setError("Please log in to like an item.");
+      return;
+    }
+
     const isLiked = item.likes.includes(currentUser?._id);
     const likeAction = isLiked ? unlikeItem : likeItem;
 
@@ -111,7 +117,7 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<ClothesSection clothingItems={clothingItems} onCardLike={handleCardLike} />} />
-              
+
               <Route
                 path="/profile"
                 element={
@@ -139,6 +145,7 @@ function App() {
             isOpen={isLoginOpen}
             onClose={() => setIsLoginOpen(false)}
             onLogin={handleLogin}
+            error={error} 
           />
           <EditProfileModal
             isOpen={isEditProfileOpen}

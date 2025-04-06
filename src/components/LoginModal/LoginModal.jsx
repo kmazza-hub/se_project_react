@@ -1,29 +1,45 @@
 import React, { useState } from "react";
 
-const LoginModal = ({ isOpen, onClose, onLogin }) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+const LoginModal = ({ isOpen, onClose, onLogin, error }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(formData);
+    const credentials = { email, password };
+    onLogin(credentials);  // Call the onLogin passed from App.jsx
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit">Login</button>
-      </form>
-      <button onClick={onClose}>Close</button>
-    </div>
+    isOpen && (
+      <div className="modal">
+        <form onSubmit={handleSubmit}>
+          <h2>Login</h2>
+          {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error */}
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        <button onClick={onClose}>Close</button>
+      </div>
+    )
   );
 };
 
