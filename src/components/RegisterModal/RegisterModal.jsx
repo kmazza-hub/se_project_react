@@ -1,101 +1,107 @@
-import React, { useState } from "react";
-import "./RegisterModal.css"; 
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import useFormAndValidation from "../../utils/useFormAndValidation";
+import "./RegisterModal.css";
 
-const RegisterModal = ({ isOpen, onClose, onRegister }) => {
-  const [formData, setFormData] = useState({
+export default function RegisterModal({
+  handleRegister,
+  isLoading,
+  isOpen,
+  onClose,
+  handleLoginClick,
+}) {
+  const { values, handleChange, isValid, resetForm } = useFormAndValidation({
     name: "",
-    avatar: "",
     email: "",
     password: "",
+    avatar: "",
   });
-  
-  const [error, setError] = useState(""); // Add error state
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onRegistration = (event) => {
+    event.preventDefault();
+    handleRegister(values)
+      .then(() => {
+        resetForm();
+      })
+      .catch((error) => {
+        console.error("Registration failed: ", error);
+      });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const updatedFormData = {
-      ...formData,
-      avatar: formData.avatar || "https://default-avatar.com/avatar.png", // Default avatar URL
-    };
-
-    setIsSubmitting(true); // Set submitting state to true while API call is in progress
-    try {
-      await onRegister(updatedFormData); // Call onRegister function passed from App
-      setFormData({ name: "", avatar: "", email: "", password: "" }); // Reset form after successful registration
-      onClose(); // Close the modal after successful registration
-    } catch (err) {
-      setError("Registration failed. Please try again."); // Set error message if registration fails
-    } finally {
-      setIsSubmitting(false); // Reset submitting state
-    }
+  const handleOrLoginClick = () => {
+    handleLoginClick();
   };
-
-  if (!isOpen) return null;
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Sign Up</h2>
-        {error && <p className="error">{error}</p>} {/* Display error message if there is an error */}
-
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-
-          <label htmlFor="avatar">Avatar URL</label>
-          <input
-            type="text"
-            id="avatar"
-            name="avatar"
-            placeholder="Avatar URL"
-            value={formData.avatar}
-            onChange={handleChange}
-          />
-
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-
-          <button type="submit" disabled={isSubmitting}> 
-            {isSubmitting ? "Registering..." : "Register"} {/* Disable button while submitting */}
-          </button>
-        </form>
-        <button className="close-btn" onClick={onClose}>Close</button>
+    <ModalWithForm
+      title="Sign up"
+      buttonText={isLoading ? "Registering..." : "Next"}
+      isOpen={isOpen}
+      onClose={onClose}
+      formValid={isValid}
+      onSubmit={onRegistration}
+      buttonClassName="modal__submit-register"
+    >
+      <label htmlFor="register-email" className="modal__label">
+        Email
+        <input
+          id="register-email"
+          type="email"
+          className="modal__input"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          value={values.email || ""}
+          required
+        />
+      </label>
+      <label htmlFor="register-password" className="modal__label">
+        Password
+        <input
+          id="register-password"
+          type="password"
+          name="password"
+          className="modal__input"
+          placeholder="Password"
+          onChange={handleChange}
+          value={values.password || ""}
+          required
+        />
+      </label>
+      <label htmlFor="register-name" className="modal__label">
+        Name
+        <input
+          id="register-name"
+          type="text"
+          name="name"
+          className="modal__input"
+          placeholder="Name"
+          onChange={handleChange}
+          value={values.name || ""}
+          required
+        />
+      </label>
+      <label htmlFor="register-avatar" className="modal__label">
+        Avatar URL
+        <input
+          id="register-avatar"
+          type="url"
+          name="avatar"
+          className="modal__input-avatarURL"
+          placeholder="Avatar URL"
+          onChange={handleChange}
+          value={values.avatar || ""}
+          required
+        />
+      </label>
+      <div className="modal__button-containter">
+        <button
+          type="button"
+          className="modal__to-login"
+          onClick={handleOrLoginClick}
+        >
+          or Login
+        </button>
       </div>
-    </div>
+    </ModalWithForm>
   );
-};
-
-export default RegisterModal;
+}

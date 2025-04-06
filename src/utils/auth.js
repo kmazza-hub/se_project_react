@@ -1,66 +1,45 @@
-const BASE_URL = "http://localhost:3001"; 
+const BASE_URL = "http://localhost:3001";
+import checkResponse from "./api";
 
-export const register = ({ name, avatar, email, password }) => {
-  return fetch(`${BASE_URL}/auth/signup`, {  // ✅ Corrected path
+export const signUp = (name, avatar, email, password) => {
+  return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, avatar, email, password }),
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return res.json().then((data) => {
-          throw new Error(data.message || "Registration failed"); 
-        });
-      }
-    })
-    .catch((err) => {
-      console.error("Registration error: ", err);
-      throw err;
+    .then(checkResponse)
+    .catch((error) => {
+      console.error("Signup failed:", error);
+      throw error;
     });
 };
 
-export const login = ({ email, password }) => {
-  return fetch(`${BASE_URL}/auth/signin`, {  // ✅ Corrected path
+export const signIn = (email, password) => {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ email, password }),
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return res.json().then((data) => {
-          throw new Error(data.message || "Login failed"); 
-        });
-      }
-    })
-    .catch((err) => {
-      console.error("Login error: ", err);
-      throw err;
+    .then(checkResponse)
+    .catch((error) => {
+      console.error("Signin failed:", error);
+      throw error;
     });
 };
 
-export const getUserData = (token) => {
+export const fetchUserData = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return res.json().then((data) => {
-          throw new Error(data.message || "Failed to fetch user data");
-        });
-      }
-    })
-    .catch((err) => {
-      console.error("Error fetching user data: ", err);
-      throw err;
+    .then(checkResponse)
+    .catch((error) => {
+      console.error("Signin failed:", error);
+      throw error;
     });
 };

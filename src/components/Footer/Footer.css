@@ -1,19 +1,23 @@
 .footer {
-  height: 20px;
-  top: 1040px;
-  left: 40px;
-  margin-top: 24px;
-  color: #000000;
-}
-
-.footer__copyright {
-  margin: 0;
-}
-
-.footer p {
   display: flex;
+  justify-content: space-between;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0;
+  line-height: 20px;
+  padding-top: 171px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.footer span {
-  margin-left: auto;
+.footer__left {
+  padding-left: 40px;
+  font-family: "CabinetGrotesk", sans-serif;
+}
+
+.footer__right {
+  text-align: right;
+  padding-right: 40px;
+  font-family: "CabinetGrotesk", sans-serif;
 }

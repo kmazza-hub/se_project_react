@@ -1,7 +1,19 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ element, isLoggedIn }) => {
-  return isLoggedIn ? element : <Navigate to="/" replace />;
-};
+export default function ProtectedRoute({
+  isLoggedIn = localStorage.getItem("jwt"),
+  children,
+  anonymous = false,
+}) {
 
-export default ProtectedRoute;
+  if (anonymous && isLoggedIn) {
+    return <Navigate to="/profile" />;
+  }
+
+  if (!anonymous && !isLoggedIn) {
+    return <Navigate to="/" />;
+  }
+
+  return children;
+}

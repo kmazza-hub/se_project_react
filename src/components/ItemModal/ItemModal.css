@@ -1,72 +1,91 @@
-@font-face {
-  font-family: CabinetGrotesk;
-  src: url("./vendor/Fonts/CabinetGrotesk-Medium.otf");
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 498px;
+  height: fit-content;
 }
 
-.modal__content_type_image {
+.modal__content.modal__content_type_image {
+  overflow: hidden;
   padding: 0;
-}
-
-div.modal__content_type_image {
-  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
 }
 
 .modal__image {
-  width: 100%;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-}
-
-.modal__close {
-  .modal__close {
-    position: absolute;
-    top: 20px;
-    right: 28px;
-    width: 20px;
-    height: 20px;
-    border: none;
-    color: grey; /* Change color to grey */
-    padding: 0;
-    cursor: pointer;
-    background-color: transparent;
-}
-
-}
-
-.modal__footer {
-  padding: 20px 28px;
-  display: flex;
-  justify-content: space-between;
+  width: 498px;
+  height: 498px;
+  object-fit: cover;
+  position: relative;
 }
 
 .modal__caption {
-  margin: 0;
-  font-family: Cabinet Grotesk;
   font-size: 20px;
   font-weight: 700;
-  line-height: 20px;
+  padding-top: 20px;
+  padding-bottom: 12px;
+  padding-left: 32px;
+  font-family: "CabinetGrotesk", sans-serif;
+  margin: 0;
 }
 
 .modal__weather {
-  margin-top: 20px;
-  font-family: Cabinet Grotesk;
   font-size: 20px;
   font-weight: 700;
-  line-height: 20px;
+  margin: 0;
+  padding-left: 32px;
+  font-family: "CabinetGrotesk", sans-serif;
+  padding-bottom: 32px;
 }
 
-.modal__delete {
-  cursor: pointer;
-  color: #ff4d00;
+.modal__footer {
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.modal__delete-item-btn {
+  position: absolute;
+  right: 30px;
+  bottom: 70px;
   border: none;
-  background-color: transparent;
-  font-family: Cabinet Grotesk;
+  background: transparent;
+  color: #ff4d00;
+  font-family: "CabinetGrotesk", sans-serif;
   font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
-  margin-bottom: auto;
 }
 
-.modal__delete:hover {
-  color: red;
+.modal__close {
+  background-image: url("../../assets/x2.svg");
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  border: none;
+  width: 16px;
+  height: 16px;
+  color: white;
+  background-color: transparent;
+  z-index: 1000;
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: 343px;
+    z-index: 1000;
+  }
+
+  .modal__image {
+    width: 343px;
+    height: 343px;
+  }
 }

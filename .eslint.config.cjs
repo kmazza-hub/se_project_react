@@ -37,7 +37,6 @@ export default [
     },
     overrides: [
       {
-    
         files: ["*.js", "*.jsx"],
       },
     ],

@@ -1,25 +1,23 @@
-@font-face {
-  font-family: CabinetGrotesk;
-  src: url("./vendor/Fonts/CabinetGrotesk-Medium.otf");
-}
-
 .weather-card {
-  border-radius: 12px;
   position: relative;
   display: flex;
-  overflow: hidden;
   height: 80px;
+  border: 12px;
+  overflow: hidden;
+  max-width: 100%;
+  justify-content: center;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .weather-card__temp {
-  margin: 0;
-  font-family: Cabinet Grotesk;
   font-size: 36px;
-  font-weight: 700;
   line-height: 40px;
+  margin: 0;
   position: absolute;
   top: 20px;
   left: 16px;
+  font-family: "CabinetGrotesk", sans-serif;
   color: #fff;
 }
 

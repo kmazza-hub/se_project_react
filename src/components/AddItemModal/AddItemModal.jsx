@@ -1,50 +1,63 @@
+import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import "./AddItemModal.css";
 
 export default function AddItemModal({
-  closeActiveModal,
+  onClose,
   isOpen,
   onAddItemModalSubmit,
+  buttonClassName,
 }) {
   const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState("");
   const [weather, setWeather] = useState("");
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
-  const handleImageUrlChange = (e) => {
-    setImageUrl(e.target.value);
+  const handleImageChange = (e) => {
+    setImage(e.target.value);
   };
 
   const handleWeatherChange = (e) => {
     setWeather(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddItemModalSubmit({ name, imageUrl, weather }).then(() => {
-      setName("");
-      setImageUrl("");
-      setWeather("");
-    });
+  const resetForm = () => {
+    setName("");
+    setImage("");
+    setWeather("");
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    onAddItemModalSubmit({ name, image, weather }, resetForm);
+  };
+  useEffect(() => {
+    if (isOpen) {
+      setName("");
+      setImage("");
+      setWeather("");
+    }
+  }, [isOpen]);
 
   return (
     <ModalWithForm
       title="New garment"
       buttonText="Add garment"
-      closeActiveModal={closeActiveModal}
       isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
+      buttonClassName="modal__submit-new-garment"
     >
-      <label htmlFor="Name" className="modal__label">
-        Name{" "}
+      <label htmlFor="name" className="modal__label">
+        Name
         <input
-          className="modal__input"
-          id="Name"
           type="text"
+          className="modal__input"
+          id="name"
           placeholder="Name"
           required
           minLength="1"
@@ -52,57 +65,53 @@ export default function AddItemModal({
           onChange={handleNameChange}
           value={name}
         />
-        <span className="modal__error" id="place-name-error" />
       </label>
       <label htmlFor="imageUrl" className="modal__label">
-        Image{" "}
+        Image
         <input
+          type="url"
           className="modal__input"
           id="imageUrl"
-          type="url"
           placeholder="Image URL"
           required
-          onChange={handleImageUrlChange}
-          value={imageUrl}
+          onChange={handleImageChange}
+          value={image}
         />
       </label>
       <fieldset className="modal__radio-buttons">
-        <legend className="modal__legend">Select the weather type:</legend>
-        <label htmlFor="hot" className="modal__input modal__input_type_radio">
+        <legend className="modal__legend">Select the weather type</legend>
+        <label htmlFor="hot" className="modal__label modal__label_type_radio">
           <input
+            name="weatherType"
+            id="hot"
             type="radio"
             className="modal__radio-input"
-            id="hot"
-            name="weather"
-            required
+            value="hot"
             onChange={handleWeatherChange}
-            value={"hot"}
             checked={weather === "hot"}
           />
           Hot
         </label>
-        <label htmlFor="warm" className="modal__input modal__input_type_radio">
+        <label htmlFor="warm" className="modal__label modal__label_type_radio">
           <input
+            name="weatherType"
+            id="warm"
             type="radio"
             className="modal__radio-input"
-            id="warm"
-            name="weather"
-            required
+            value="warm"
             onChange={handleWeatherChange}
-            value={"warm"}
             checked={weather === "warm"}
           />
           Warm
         </label>
-        <label htmlFor="cold" className="modal__input modal__input_type_radio">
+        <label htmlFor="cold" className="modal__label modal__label_type_radio">
           <input
+            name="weatherType"
+            id="cold"
             type="radio"
             className="modal__radio-input"
-            id="cold"
-            name="weather"
-            required
+            value="cold"
             onChange={handleWeatherChange}
-            value={"cold"}
             checked={weather === "cold"}
           />
           Cold

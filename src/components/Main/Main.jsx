@@ -1,32 +1,37 @@
+import React, { useContext } from "react";
 import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
-import { defaultClothingItems } from "../../utils/constants";
 import ItemCard from "../ItemCard/ItemCard";
-import { useContext } from "react";
-import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureContext";
 
-function Main({ weatherData, onCardClick, clothingItems, handleDeleteClick }) {
+function Main({ weatherData, handleCardClick, clothingItems, onCardLike }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
-  const itemsToRender = clothingItems.length > 0 ? clothingItems : defaultClothingItems;
+  // Add a check to ensure weatherData and clothingItems are defined and in expected formats
+  if (!weatherData || !Array.isArray(clothingItems)) {
+    console.error("Invalid data received in Main component", { weatherData, clothingItems });
+    return <div>Error loading data.</div>;  // Fallback UI in case data is invalid
+  }
 
   return (
     <main>
-      <WeatherCard weatherData={weatherData} />
+      {weatherData && <WeatherCard weatherData={weatherData} />}
       <section className="cards">
-        <p className="cards__text">
-          Today is {weatherData.temp[currentTemperatureUnit]} &deg;
-          {currentTemperatureUnit} / You might want to wear:
-        </p>
+        {weatherData && (
+          <p className="cards__text">
+            Today is {weatherData.temp[currentTemperatureUnit]}&deg;
+            {currentTemperatureUnit} / You may want to wear:
+          </p>
+        )}
         <ul className="cards__list">
-          {itemsToRender
+          {(Array.isArray(clothingItems) ? clothingItems : [])
             .filter((item) => item.weather === weatherData.type)
             .map((item) => (
               <ItemCard
                 key={item._id}
                 item={item}
-                onCardClick={onCardClick}
-                onClick={handleDeleteClick}
+                handleCardClick={handleCardClick}
+                onCardLike={onCardLike}
               />
             ))}
         </ul>

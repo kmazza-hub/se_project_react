@@ -1,37 +1,50 @@
-@font-face {
-  font-family: CabinetGrotesk;
-  src: url("./vendor/Fonts/CabinetGrotesk-Medium.otf");
-}
-
-.clothes-section__title {
+.clothes-section {
   display: flex;
-}
-
-.clothes-section__item {
-  font-family: Cabinet Grotesk;
+  flex-direction: column;
+  font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 20px;
+  line-height: 25px;
   font-weight: 700;
-  line-height: 24.8px;
-  text-align: left;
+  margin-left: 90px;
 }
 
-.clothes-section__btn {
+.paragraphButton-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin: 8px 0 16px 0;
+}
+
+.clothing__add-btn {
+  max-width: 110px;
+  padding: 0;
+  height: 25px;
   border: none;
-  font-family: Cabinet Grotesk;
-  font-size: 20px;
+  background: none;
+  opacity: 0.6;
+  cursor: pointer;
+  font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-weight: 700;
   line-height: 24px;
-  cursor: pointer;
-  background-color: transparent;
-  color: #00000099;
-  margin-left: 20px;
+  font-size: 20px;
 }
 
-.clothes-section__list {
+.clothing__section-items {
+  margin: 0;
+}
+
+.clothes__add-btn:hover {
+  opacity: 1;
+}
+
+.clothes-section__items {
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  list-style-type: none;
   margin: 0;
   padding: 0;
+  list-style-type: none;
+  gap: 20px;
+  max-width: 1015px;
 }

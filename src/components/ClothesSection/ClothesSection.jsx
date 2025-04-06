@@ -1,37 +1,43 @@
 import "./ClothesSection.css";
 import ItemCard from "../ItemCard/ItemCard";
-import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { useContext } from "react";
 
-function ClothesSection({ onCardClick, handleAddClick, handleDeleteCard, onCardLike, clothingItems }) {
+function ClothesSection({
+  clothingItems,
+  handleCardClick,
+  onCardLike,
+  handleAddClick,
+}) {
   const currentUser = useContext(CurrentUserContext);
-
-  // Filter items to only show the logged-in user's items
-  const userItems = clothingItems.filter((item) => item.owner === currentUser?._id);
-
   return (
     <div className="clothes-section">
-      <div className="clothes-section__title">
-        <p className="clothes-section__item">Your items</p>
-        <button className="clothes-section__btn" type="button" onClick={handleAddClick}>
-          + Add New
+      <div className="paragraphButton-section">
+        <p className="clothing__section-items">Your Items</p>
+        <button
+          className="clothing__add-btn"
+          onClick={handleAddClick}
+          type="button"
+        >
+          Add New +
         </button>
       </div>
-      {userItems.length > 0 ? (
-        <ul className="clothes-section__list">
-          {userItems.map((item) => (
-            <ItemCard
-              key={item._id}
-              item={item}
-              onCardClick={onCardClick}
-              handleDeleteCard={handleDeleteCard}
-              onCardLike={onCardLike} 
-            />
-          ))}
-        </ul>
-      ) : (
-        <p className="clothes-section__empty">No items added yet.</p>
-      )}
+      <ul className="clothes-section__items">
+        {clothingItems.map((item) => {
+          if (item.owner === currentUser._id) {
+            return (
+              <ItemCard
+                key={item._id}
+                item={item}
+                onCardLike={onCardLike}
+                handleCardClick={handleCardClick}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
+      </ul>
     </div>
   );
 }

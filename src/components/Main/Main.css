@@ -1,32 +1,21 @@
-@font-face {
-  font-family: CabinetGrotesk;
-  src: url("./vendor/Fonts/CabinetGrotesk-Medium.otf");
-}
-
-.cards {
-  width: 100%;
-}
-
 .cards__text {
-  font-family: Cabinet Grotesk;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24.8px;
+  font-family: "CabinetGrotesk", sans-serif;
+  padding-left: 40px;
+  padding-top: 40px;
+  padding-bottom: 34px;
 }
 
 .cards__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  list-style-type: none;
-  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 315px);
+  grid-gap: 20px 20px;
   padding: 0;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
-@media screen and (max-width: 480px) {
+@media (max-width: 480px) {
   .cards__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 162px);
-    row-gap: 10px;
+    justify-content: center;
   }
 }
