@@ -1,26 +1,47 @@
 .profile {
   display: flex;
-  max-width: 1440px;
+  flex-direction: row;
 }
 
-.profile__clothing-items .cards__text {
-  font-family: "CabinetGrotesk", sans-serif;
-  padding-left: 40px;
-  padding-top: 40px;
-  padding-bottom: 34px;
+.profile__content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
-.profile__clothing-items .cards__list {
+.sidebar {
+  width: 200px;
+  padding: 20px;
+}
+
+.clothes-section {
+  flex: 1;
+  margin-left: 1px;
+}
+
+.clothes-section__add-item-btn {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.clothes-section__title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  margin-left: 120px;
+  margin-right: auto;
+}
+
+.clothes-section__list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 315px);
-  grid-gap: 20px 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  list-style: none;
   padding: 0;
-  margin-left: 40px;
-  margin-right: 40px;
-}
-
-@media (max-width: 480px) {
-  .profile__clothing-items .cards__list {
-    justify-content: center;
-  }
+  margin-left: 120px;
 }

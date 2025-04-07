@@ -1,45 +1,53 @@
-const BASE_URL = "http://localhost:3001";
-import checkResponse from "./api";
+import { request } from "./api";
 
-export const signUp = (name, avatar, email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, avatar, email, password }),
-  })
-    .then(checkResponse)
-    .catch((error) => {
-      console.error("Signup failed:", error);
-      throw error;
-    });
-};
+const baseUrl = "http://localhost:3001";
 
-export const signIn = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
+export const signup = (userData) => {
+  return request(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
-  })
-    .then(checkResponse)
-    .catch((error) => {
-      console.error("Signin failed:", error);
-      throw error;
-    });
+    body: JSON.stringify(userData),
+  });
 };
 
-export const fetchUserData = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
+export const signin = (credentials) => {
+  return request(`${baseUrl}/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  });
+};
+
+export const getUserData = (token) => {
+  if (!token) {
+    throw new Error("No token found");
+  }
+
+  return request(`${baseUrl}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
     },
-  })
-    .then(checkResponse)
-    .catch((error) => {
-      console.error("Signin failed:", error);
-      throw error;
-    });
+  });
+};
+
+export const editUserProfile = (updatedUserData) => {
+  const token = localStorage.getItem("jwt");
+  if (!token) {
+    throw new Error("No token found");
+  }
+
+  return request(`${baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(updatedUserData),
+  });
 };

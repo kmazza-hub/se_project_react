@@ -1,39 +1,38 @@
 import React, { useContext } from "react";
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import ItemCard from "../ItemCard/ItemCard";
-import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureContext";
 
-function Main({ weatherData, handleCardClick, clothingItems, onCardLike }) {
+function Main({ weatherData, clothingItems, handleCardClick, onCardLike }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
-
-  // Add a check to ensure weatherData and clothingItems are defined and in expected formats
-  if (!weatherData || !Array.isArray(clothingItems)) {
-    console.error("Invalid data received in Main component", { weatherData, clothingItems });
-    return <div>Error loading data.</div>;  // Fallback UI in case data is invalid
-  }
 
   return (
     <main>
-      {weatherData && <WeatherCard weatherData={weatherData} />}
+      <WeatherCard weatherData={weatherData} />
       <section className="cards">
-        {weatherData && (
-          <p className="cards__text">
-            Today is {weatherData.temp[currentTemperatureUnit]}&deg;
-            {currentTemperatureUnit} / You may want to wear:
-          </p>
-        )}
+        <p className="cards__text">
+          Today is {weatherData.temp[currentTemperatureUnit]} &deg;
+          {currentTemperatureUnit}
+        </p>
         <ul className="cards__list">
-          {(Array.isArray(clothingItems) ? clothingItems : [])
-            .filter((item) => item.weather === weatherData.type)
-            .map((item) => (
-              <ItemCard
-                key={item._id}
-                item={item}
-                handleCardClick={handleCardClick}
-                onCardLike={onCardLike}
-              />
-            ))}
+          {clothingItems.length === 0 ? (
+            <p>No items available.</p>
+          ) : (
+            clothingItems
+              .filter(
+                (item) =>
+                  item.weather.toLowerCase() === weatherData.type.toLowerCase()
+              )
+              .map((item) => (
+                <ItemCard
+                  key={item._id}
+                  item={item}
+                  onCardClick={handleCardClick}
+                  onCardLikes={onCardLike}
+                />
+              ))
+          )}
         </ul>
       </section>
     </main>

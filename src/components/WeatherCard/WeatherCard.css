@@ -2,12 +2,8 @@
   position: relative;
   display: flex;
   height: 80px;
-  border: 12px;
+  border-radius: 12px;
   overflow: hidden;
-  max-width: 100%;
-  justify-content: center;
-  margin-left: 40px;
-  margin-right: 40px;
 }
 
 .weather-card__temp {
@@ -17,7 +13,6 @@
   position: absolute;
   top: 20px;
   left: 16px;
-  font-family: "CabinetGrotesk", sans-serif;
   color: #fff;
 }
 

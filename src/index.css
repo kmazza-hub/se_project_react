@@ -1,2 +1,5 @@
 @import url(./vendor/normalize.css);
-@import url(./vendor/fonts/fonts.css);
+@import "./components/itemmodal/itemmodal.css";
+@import "./components/Profile/ClothesSection.css";
+@import "./components/Profile/Profile.css";
+@import "./components/Profile/SideBar.css";

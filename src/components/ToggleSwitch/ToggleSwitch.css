@@ -1,66 +1,61 @@
 .toggle-switch {
-  width: 56px;
-  height: 28px;
-  border: 2px solid #7e7e7e;
-  border-radius: 20px;
-  cursor: pointer;
-  overflow: hidden;
   position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-left: 200px;
 }
 
-.toggle-switch_checkbox {
+.toggle-switch__checkbox {
   opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.toggle-switch__circle {
-  background-color: black;
-  width: 28px;
-  height: 28px;
+.toggle-switch__slider {
   position: absolute;
-  border-radius: 50%;
+  cursor: pointer;
+  top: 0;
   left: 0;
-  transition: all 0.4s;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
 }
 
-.toggle-switch__text {
+.toggle-switch__slider:before {
   position: absolute;
-  color: grey;
-  top: 5px;
-  font-size: 14px;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
 }
 
-.toggle-switch__text_F {
-  left: 9px;
-  font-family: "CabinetGrotesk", sans-serif;
+.toggle-switch__checkbox:checked + .toggle-switch__slider {
+  background-color: #000; 
 }
 
-.toggle-switch__text_C {
-  right: 9px;
-  color: black;
-  opacity: 50%;
-  font-family: "CabinetGrotesk", sans-serif;
+.toggle-switch__checkbox:checked + .toggle-switch__slider:before {
+  transform: translateX(26px);
 }
 
-.toggle-switch_checkbox:checked ~ .toggle-switch__circle {
-  left: 28px;
+.toggle-switch__label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  color: black; 
 }
 
-.toggle-switch_checkbox:checked ~ .toggle-switch__text_F {
-  color: black;
-  opacity: 50%;
+.toggle-switch__label--left {
+  left: 10px;
 }
 
-.toggle-switch_checkbox:checked ~ .toggle-switch__text_C {
-  color: white;
-  opacity: 100%;
-}
-
-.toggle-switch_checkbox:not(:checked) ~ .toggle-switch__text_F {
-  color: white;
-  opacity: 100%;
-}
-
-.toggle-switch_checkbox:not(:checked) ~ .toggle-switch__text_C {
-  color: black;
-  opacity: 50%;
+.toggle-switch__label--right {
+  right: 10px;
 }

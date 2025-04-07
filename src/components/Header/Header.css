@@ -1,20 +1,32 @@
 .header {
   display: flex;
   align-items: center;
-  padding: 32px 0 0;
-  justify-content: space-between;
+  padding: 32px 0 28px;
 }
 
 .header__logo {
   margin-right: 24px;
 }
 
-.header__add-clothes-btn {
-  margin: 0 20px 0 20px;
+.header__date-and-location {
+  margin: 0;
   font-family: "CabinetGrotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24.8px;
+}
+
+.header__add-clothes-btn,
+.header__login-btn,
+.header__signup-btn {
+  margin: 0 10px 0 auto;
   border: none;
-  background: none;
-  padding: 0;
+  cursor: pointer;
+  font-family: "CabinetGrotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24.8px;
+  padding: 0px;
 }
 
 .header__user-container {
@@ -23,57 +35,16 @@
   gap: 12px;
 }
 
-.header__date-and-location {
-  font-family: "CabinetGrotesk", sans-serif;
-}
-
 .header__username {
   margin: 0;
   font-family: "CabinetGrotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24.8px;
+  cursor: pointer;
 }
 
 .header__avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #000;
-}
-
-.header__link {
-  text-decoration: none;
-  color: #000;
-}
-
-.header__container-left {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.header__right {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.modal__button-signup {
-  border: none;
-  background: none;
-  font-family: "CabinetGrotesk", sans-serif;
-  margin-left: 20px;
-  padding: 0;
-  font-weight: 700;
-  font-size: 20px;
-}
-
-.modal__button-login {
-  border: none;
-  background: none;
-  font-family: "CabinetGrotesk", sans-serif;
-  margin-left: 20px;
-  padding: 0;
-  font-weight: 700;
-  font-size: 20px;
+  height: 60px;
+  width: 60px;
 }

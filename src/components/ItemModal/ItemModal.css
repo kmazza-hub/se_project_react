@@ -1,91 +1,68 @@
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border-radius: 16px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  width: 498px;
-  height: fit-content;
-}
-
-.modal__content.modal__content_type_image {
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  position: relative;
-}
-
 .modal__image {
-  width: 498px;
-  height: 498px;
+  width: 100%;
+  height: auto;
   object-fit: cover;
-  position: relative;
-}
-
-.modal__caption {
-  font-size: 20px;
-  font-weight: 700;
-  padding-top: 20px;
-  padding-bottom: 12px;
-  padding-left: 32px;
-  font-family: "CabinetGrotesk", sans-serif;
-  margin: 0;
-}
-
-.modal__weather {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0;
-  padding-left: 32px;
-  font-family: "CabinetGrotesk", sans-serif;
-  padding-bottom: 32px;
-}
-
-.modal__footer {
-  box-sizing: border-box;
-  background-color: white;
-}
-
-.modal__delete-item-btn {
-  position: absolute;
-  right: 30px;
-  bottom: 70px;
-  border: none;
-  background: transparent;
-  color: #ff4d00;
-  font-family: "CabinetGrotesk", sans-serif;
-  font-size: 20px;
 }
 
 .modal__close {
-  background-image: url("../../assets/x2.svg");
-  position: absolute;
-  top: 20px;
-  right: 28px;
   border: none;
-  width: 16px;
-  height: 16px;
-  color: white;
+  background-color: #fff;
+  padding: 0px;
   background-color: transparent;
-  z-index: 1000;
+  position: absolute;
+  top: -25px;
+  left: 450px;
+  cursor: pointer;
 }
 
-@media (max-width: 480px) {
-  .modal {
-    width: 343px;
-    z-index: 1000;
-  }
+.modal__close-icon {
+  height: 22px;
+  width: 22px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
 
-  .modal__image {
-    width: 343px;
-    height: 343px;
-  }
+.modal__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.modal__delete-button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: right;
+  color: red;
+  position: relative;
+  left: 350px;
+  bottom: 33px;
+  padding: 0px;
+  font-family: "CabinetGrotesk", sans-serif;
+}
+
+.modal__delete-button:hover {
+  text-decoration: underline;
+}
+
+.modal__weather {
+  max-width: 120px;
+  position: relative;
+  top: 33px;
+  margin-top: 0px;
+  font-family: "CabinetGrotesk", sans-serif;
+}
+
+.modal__title {
+  position: relative;
+  top: 20px;
+  color: #000000;
+  width: 120px;
+  margin-bottom: 0px;
+  font-size: 18px;
+  margin-top: 0px;
+  font-family: "CabinetGrotesk", sans-serif;
 }

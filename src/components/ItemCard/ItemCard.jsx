@@ -1,42 +1,78 @@
+import React, { useContext, useState, useEffect } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import likeBtnImage from "../../images/like-btn.png";
+import likeBtnActiveImage from "../../images/like-btn-active.png";
 import "./ItemCard.css";
-import { useContext } from "react";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function ItemCard({ item, handleCardClick, onCardLike }) {
+function ItemCard({ item, onCardClick, onCardLikes }) {
+  const { _id, name, imageUrl, likes } = item;
   const currentUser = useContext(CurrentUserContext);
 
-  const isLiked =
-    Array.isArray(item.likes) &&
-    currentUser?._id &&
-    item.likes.some((id) => id.toString() === currentUser._id.toString());
+  const [isLiked, setIsLiked] = useState(
+    currentUser ? likes.some((id) => id === currentUser._id) : false
+  );
 
-  const handleLikeClick = () => {
-    onCardLike({ item, isLiked });
+  useEffect(() => {
+    setIsLiked(
+      currentUser ? likes.some((id) => id === currentUser._id) : false
+    );
+  }, [likes, currentUser]);
+
+  const itemLikeButtonClassName = isLiked
+    ? "item-card__like-button_active"
+    : "item-card__like-button";
+
+  const handleCardLikes = () => {
+    if (!currentUser) {
+      console.log("Please log in to like items.");
+      return;
+    }
+
+    const previousIsLiked = isLiked; 
+    const newIsLiked = !isLiked;
+    setIsLiked(newIsLiked);
+
+    const result = onCardLikes({ id: item._id, isLiked: newIsLiked });
+
+    if (result instanceof Promise) {
+      result
+        .then(() => {})
+        .catch((error) => {
+          console.error("Failed to toggle like:", error);
+          setIsLiked(previousIsLiked); 
+        });
+    }
+  };
+
+  const handleImageClick = () => {
+    onCardClick(item);
   };
 
   return (
-    <div className="item__container">
-      <div className="card__header">
-        <h2 className="card__name">{item.name}</h2>
-
+    <li className="item-card">
+      <img
+        src={imageUrl}
+        alt={name}
+        className="item-card__image"
+        onClick={handleImageClick}
+      />
+      <div className="item-card__header">
+        <div className="item-card__name">{name}</div>
         {currentUser && (
           <button
-            className={
-              isLiked
-                ? "card__like-btn card__like-btn_active"
-                : "card__like-btn"
-            }
-            onClick={handleLikeClick}
-          ></button>
+            className="item-card__like-button"
+            onClick={handleCardLikes}
+            aria-label={isLiked ? "Unlike" : "Like"}
+          >
+            <img
+              src={isLiked ? likeBtnActiveImage : likeBtnImage}
+              alt={isLiked ? "Unlike" : "Like"}
+              className="item-card__like-image"
+            />
+          </button>
         )}
       </div>
-      <img
-        onClick={() => handleCardClick(item)}
-        src={item.imageUrl}
-        alt={item.name}
-        className="card__image"
-      />
-    </div>
+    </li>
   );
 }
 

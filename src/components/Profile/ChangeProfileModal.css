@@ -1,0 +1,50 @@
+.modal__title-sidebar {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: "CabinetGrotesk", sans-serif;
+  }
+  
+  .modal__input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .modal__submit-change {
+    background-color: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .modal__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  
+  
+  .modal__close-icon-sidebar {
+    margin-top: 55px;
+    position: absolute;
+    right: 30px;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    z-index: 10000;
+  }

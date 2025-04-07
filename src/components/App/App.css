@@ -1,17 +1,11 @@
 .page {
-  background-color: #fff;
-
-  margin: 0;
-  padding: 0;
+  background-color: #f3f3f3;
+  font-family: "CabinetGrotesk";
+  font-weight: 700;
 }
 
-.page_content {
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 32px 0 47px;
-  width: 100%;
-  max-height: 100vh;
+.page__content {
   max-width: 1360px;
-  display: flex;
-  flex-direction: column;
+  margin: 0 auto;
+  padding: 0 20px;
 }

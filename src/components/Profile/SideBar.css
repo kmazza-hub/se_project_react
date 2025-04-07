@@ -1,0 +1,41 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar__user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sidebar__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.sidebar__username {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  width: 120px;
+}
+
+.sidebar__change-profile-btn {
+  font-family: "CabinetGrotesk", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar__logout-btn {
+  font-family: "CabinetGrotesk", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}

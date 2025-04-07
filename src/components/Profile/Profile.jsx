@@ -1,42 +1,28 @@
-import ClothesSection from "../ClothesSection/ClothesSection";
-import SideBar from "../SideBar/SideBar";
+import React from "react";
+import SideBar from "./SideBar";
+import ClothesSection from "./ClothesSection";
 import "./Profile.css";
-import { useContext } from "react";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Profile({
   clothingItems,
-  handleCardClick,
+  onCardClick,
   handleAddClick,
-  handleSignOut,
-  onCardLike,
-  handleEditProfileClick,
-  isLiked,
+  onEditProfileClick,
+  onDelete,
 }) {
-  const currentUser = useContext(CurrentUserContext);
-  if (!currentUser) {
-    return <p>Please log in to view your profile.</p>;
-  }
+  const onCardLike = (itemId) => {};
 
   return (
     <div className="profile">
-      <section className="profile__sidebar">
-        <SideBar
-          handleEditProfileClick={handleEditProfileClick}
-          handleSignOut={handleSignOut}
-        />
-      </section>
-      <section className="profile__clothing-items">
-        <ClothesSection
-          clothingItems={clothingItems}
-          handleCardClick={handleCardClick}
-          handleAddClick={handleAddClick}
-          onCardLike={onCardLike}
-          isLiked={isLiked}
-        />
-      </section>
+      <SideBar onEditProfileClick={onEditProfileClick} />
+      <ClothesSection
+        items={clothingItems}
+        onCardClick={onCardClick}
+        handleAddClick={handleAddClick}
+        onCardLike={onCardLike}
+        onItemDelete={onDelete}
+      />
     </div>
   );
 }
-
 export default Profile;
