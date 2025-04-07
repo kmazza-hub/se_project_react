@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import logo from "../../images/Wtwr-logo.svg";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -12,6 +12,7 @@ function Header({
   handleToggleSwitchChange,
   onLoginClick,
   onSignUpClick,
+  onLogout,
 }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -19,12 +20,15 @@ function Header({
   });
 
   const currentUser = useContext(CurrentUserContext);
+  const location = useLocation();
+  const isOnProfilePage = location.pathname === "/profile";
 
   return (
     <header className="header">
       <Link to="/">
         <img src={logo} alt="wtwr logo" className="header__logo" />
       </Link>
+
       <p className="header__date-and-location">
         {currentDate}, {weatherData.city}
       </p>
@@ -34,7 +38,7 @@ function Header({
         onToggle={handleToggleSwitchChange}
       />
 
-      {currentUser && (
+      {currentUser && !isOnProfilePage && (
         <button
           onClick={handleAddClick}
           type="button"
@@ -45,8 +49,8 @@ function Header({
       )}
 
       {currentUser ? (
-        <Link to="/profile">
-          <div className="header__user-container">
+        <div className="header__user-container">
+          <Link to="/profile">
             <p className="header__username">{currentUser.name}</p>
             {currentUser.avatar ? (
               <img
@@ -61,8 +65,15 @@ function Header({
                   : "?"}
               </div>
             )}
-          </div>
-        </Link>
+          </Link>
+          <button
+            className="header__logout-btn"
+            onClick={onLogout}
+            type="button"
+          >
+            Log Out
+          </button>
+        </div>
       ) : (
         <>
           <button

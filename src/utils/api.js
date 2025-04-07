@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001";
+const baseUrl = "http://localhost:3001/api";
 
 function checkResponse(res) {
   if (!res.ok) {

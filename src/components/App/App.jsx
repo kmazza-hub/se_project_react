@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import { coordinates, APIkey } from "../../utils/constants";
@@ -19,7 +19,7 @@ import SignUpModal from "../SignUpModal/SignUpModal";
 import ClothesSection from "../Profile/ClothesSection";
 import { addCardLikes, removeCardLikes } from "../../utils/api";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import ProtectedRoute from "../App/ProtectedRoute";
+import ProtectedRoute from "../App/ProtectedRoute"; // import ProtectedRoute
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -83,11 +83,6 @@ function App() {
     }
     setActiveModal("preview");
     setSelectedCard(card);
-  };
-
-  const handleCardDelete = (item) => {
-    setItemToDelete(item);
-    setIsDeleteModalOpen(true);
   };
 
   const handleDeleteItem = async () => {
