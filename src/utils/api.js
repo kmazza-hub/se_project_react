@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001/";  // Ensure the API base URL is correct
+const baseUrl = "http://localhost:3001";  // Fixed: Removed the trailing slash
 
 // Helper function to check the response from fetch
 function checkResponse(res) {
@@ -15,7 +15,7 @@ export function request(url, options = {}) {
 
 // Get items from the server
 export const getItems = () => {
-  return request(`${baseUrl}/items`);  // Correctly points to /api/items
+  return request(`${baseUrl}/items`);  // Correctly points to /items
 };
 
 // Add an item to the server
@@ -26,7 +26,7 @@ export const addItem = (item) => {
     throw new Error("Authentication required");
   }
 
-  return request(`${baseUrl}/items`, {  // Correctly points to /api/items
+  return request(`${baseUrl}/items`, {  // Correctly points to /items
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const deleteItem = (id) => {
     throw new Error("Authentication required");
   }
 
-  return request(`${baseUrl}/items/${id}`, {  // Correctly points to /api/items/:id
+  return request(`${baseUrl}/items/${id}`, {  // Correctly points to /items/:id
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const deleteItem = (id) => {
 
 // User signup
 export const signup = (userData) => {
-  return request(`${baseUrl}/users/signup`, {  // Correctly points to /api/users/signup
+  return request(`${baseUrl}/users/signup`, {  // Correctly points to /users/signup
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export const signup = (userData) => {
 
 // User signin
 export const signin = (credentials) => {
-  return request(`${baseUrl}/users/signin`, {  // Correctly points to /api/users/signin
+  return request(`${baseUrl}/users/signin`, {  // Correctly points to /users/signin
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const signin = (credentials) => {
 
 // Add a like to an item
 export const addCardLikes = (id, token) => {
-  return request(`${baseUrl}/items/${id}/likes`, {  // Correctly points to /api/items/:id/likes
+  return request(`${baseUrl}/items/${id}/likes`, {  // Correctly points to /items/:id/likes
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ export const addCardLikes = (id, token) => {
 
 // Remove a like from an item
 export const removeCardLikes = (id, token) => {
-  return request(`${baseUrl}/items/${id}/likes`, {  // Correctly points to /api/items/:id/likes
+  return request(`${baseUrl}/items/${id}/likes`, {  // Correctly points to /items/:id/likes
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ export const getUserData = (token) => {
     throw new Error("No token found");
   }
 
-  return request(`${baseUrl}/users/me`, {  // Correctly points to /api/users/me
+  return request(`${baseUrl}/users/me`, {  // Correctly points to /users/me
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export const editUserProfile = (updatedUserData) => {
     throw new Error("No token found");
   }
 
-  return request(`${baseUrl}/users/me`, {  // Correctly points to /api/users/me
+  return request(`${baseUrl}/users/me`, {  // Correctly points to /users/me
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

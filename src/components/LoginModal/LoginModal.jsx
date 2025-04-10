@@ -17,9 +17,7 @@ function LoginModal({ isOpen, onLogin, onClose, onRegister }) {
       isOpen={isOpen}
       onSubmit={handleSubmit}
       onClose={onClose}
-      onExtraAction={onRegister}
-      submitText={null}
-      extraActionText="Sign Up"
+      submitText="Log in" // You can handle submit text directly here
     >
       <div className="modal__input-group">
         <label htmlFor="email" className="modal__label">
@@ -57,7 +55,7 @@ function LoginModal({ isOpen, onLogin, onClose, onRegister }) {
         </button>
         <button
           type="button"
-          onClick={onRegister}
+          onClick={onRegister}  // Directly call onRegister for the "Sign Up" action
           className="modal__register-link"
         >
           Sign Up
