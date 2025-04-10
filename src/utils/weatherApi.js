@@ -1,3 +1,6 @@
+// weatherApi.js
+
+// Function to check the response from the weather API
 const checkResponse = (res) => {
   if (!res.ok) {
     return Promise.reject(`Error: ${res.status}`);
@@ -5,14 +8,14 @@ const checkResponse = (res) => {
   return res.json();
 };
 
-
+// Function to fetch weather data from OpenWeatherMap API
 export const getWeather = ({ latitude, longitude }, APIkey) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
   ).then(checkResponse);
 };
 
-
+// Function to filter and format weather data
 export const filterWeatherData = (data) => {
   const result = {};
   const tempF = data.main.temp;
@@ -25,7 +28,7 @@ export const filterWeatherData = (data) => {
   return result;
 };
 
-
+// Helper function to categorize weather based on temperature
 const getWeatherType = (temperature) => {
   if (temperature > 86) {
     return "hot";
