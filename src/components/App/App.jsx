@@ -188,7 +188,7 @@ function App() {
   // Handles user registration and login
   const handleRegister = (userData) => {
     console.log("Registering with data:", userData);
-
+  
     signup(userData)
       .then((res) => {
         if (res.token) {
@@ -201,21 +201,24 @@ function App() {
             name: userData.name,
           });
         }
-        throw new Error("Registration failed");
+        throw new Error("Registration failed - no token received.");
       })
       .then((res) => {
         if (res.token) {
           localStorage.setItem("jwt", res.token);
+          console.log("JWT saved to localStorage:", res.token);
           return getUserData(res.token);
         }
-        throw new Error("Login failed");
+        throw new Error("Login failed - no token received.");
       })
       .then((data) => {
         setCurrentUser(data);
         setIsLoggedIn(true);
       })
-      .catch(console.error);
-  };
+      .catch((error) => {
+        console.error("Registration or Login Error:", error);
+      });
+  };  
 
   const handleLogin = (credentials) => {
     signin(credentials)
