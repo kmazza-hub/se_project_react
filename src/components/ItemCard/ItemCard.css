@@ -50,7 +50,22 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  transition: background-color 0.3s ease;
 }
+
+.item-card__like-button_active {
+  background-color: red; /* Turn red when the item is liked */
+}
+
+.item-card__like-button:hover {
+  background-color: darkred; /* Dark red when hovered */
+}
+
+.item-card__like-image {
+  width: 22px;
+  height: 22px;
+}
+
 
 .item-card__weather {
   position: absolute;

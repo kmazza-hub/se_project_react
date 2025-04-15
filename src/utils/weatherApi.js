@@ -1,31 +1,12 @@
 // weatherApi.js
 
-// Function to check the response from the weather API
-const checkResponse = (res) => {
-  if (!res.ok) {
-    return Promise.reject(`Error: ${res.status}`);
-  }
-  return res.json();
-};
+import { checkResponse } from './api'; // ✅ Reusing existing checkResponse
 
 // Function to fetch weather data from OpenWeatherMap API
 export const getWeather = ({ latitude, longitude }, APIkey) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
   ).then(checkResponse);
-};
-
-// Function to filter and format weather data
-export const filterWeatherData = (data) => {
-  const result = {};
-  const tempF = data.main.temp;
-  result.city = data.name;
-  result.temp = {
-    F: tempF,
-    C: Math.round((tempF - 32) * (5 / 9)),
-  };
-  result.type = getWeatherType(result.temp.F);
-  return result;
 };
 
 // Helper function to categorize weather based on temperature
@@ -37,4 +18,17 @@ const getWeatherType = (temperature) => {
   } else {
     return "cold";
   }
+};
+
+// Function to filter and format weather data
+export const filterWeatherData = (data) => {
+  const tempF = data.main.temp;
+  return {
+    city: data.name,
+    temp: {
+      F: tempF,
+      C: Math.round((tempF - 32) * (5 / 9)),
+    },
+    type: getWeatherType(tempF),
+  };
 };

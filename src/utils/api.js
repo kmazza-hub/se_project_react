@@ -1,6 +1,6 @@
-const baseUrl = "http://localhost:3001";  // Fixed: Removed the trailing slash
+const baseUrl = "http://localhost:3001"; // Fixed: Removed the trailing slash
 
-// Helper function to check the response from fetch
+// ✅ Helper function to check the response from fetch
 function checkResponse(res) {
   if (!res.ok) {
     throw new Error(`Error: ${res.status}`);
@@ -8,25 +8,24 @@ function checkResponse(res) {
   return res.json();
 }
 
-// Function to handle fetch requests
+// ✅ Function to handle fetch requests
 export function request(url, options = {}) {
   return fetch(url, options).then(checkResponse);
 }
 
-// Get items from the server
+// ✅ Get items from the server
 export const getItems = () => {
-  return request(`${baseUrl}/items`);  // Correctly points to /items
+  return request(`${baseUrl}/items`);
 };
 
-// Add an item to the server
+// ✅ Add an item to the server
 export const addItem = (item) => {
   const token = localStorage.getItem("jwt");
-
   if (!token) {
     throw new Error("Authentication required");
   }
 
-  return request(`${baseUrl}/items`, {  // Correctly points to /items
+  return request(`${baseUrl}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -36,15 +35,14 @@ export const addItem = (item) => {
   });
 };
 
-// Delete an item from the server
+// ✅ Delete an item from the server
 export const deleteItem = (id) => {
   const token = localStorage.getItem("jwt");
-
   if (!token) {
     throw new Error("Authentication required");
   }
 
-  return request(`${baseUrl}/items/${id}`, {  // Correctly points to /items/:id
+  return request(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -52,9 +50,9 @@ export const deleteItem = (id) => {
   });
 };
 
-// User signup
+// ✅ User signup
 export const signup = (userData) => {
-  return request(`${baseUrl}/users/signup`, {  // Correctly points to /users/signup
+  return request(`${baseUrl}/users/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,9 +61,9 @@ export const signup = (userData) => {
   });
 };
 
-// User signin
+// ✅ User signin
 export const signin = (credentials) => {
-  return request(`${baseUrl}/users/signin`, {  // Correctly points to /users/signin
+  return request(`${baseUrl}/users/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -74,9 +72,9 @@ export const signin = (credentials) => {
   });
 };
 
-// Add a like to an item
+// ✅ Add a like to an item
 export const addCardLikes = (id, token) => {
-  return request(`${baseUrl}/items/${id}/likes`, {  // Correctly points to /items/:id/likes
+  return request(`${baseUrl}/items/${id}/likes`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -84,9 +82,9 @@ export const addCardLikes = (id, token) => {
   });
 };
 
-// Remove a like from an item
+// ✅ Remove a like from an item
 export const removeCardLikes = (id, token) => {
-  return request(`${baseUrl}/items/${id}/likes`, {  // Correctly points to /items/:id/likes
+  return request(`${baseUrl}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -94,34 +92,37 @@ export const removeCardLikes = (id, token) => {
   });
 };
 
-// Get user data based on the token
+// ✅ Get user data based on the token
 export const getUserData = (token) => {
   if (!token) {
     throw new Error("No token found");
   }
 
-  return request(`${baseUrl}/users/me`, {  // Correctly points to /users/me
+  return request(`${baseUrl}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
-// Edit the current user's profile
+// ✅ Edit the current user's profile
 export const editUserProfile = (updatedUserData) => {
   const token = localStorage.getItem("jwt");
   if (!token) {
     throw new Error("No token found");
   }
 
-  return request(`${baseUrl}/users/me`, {  // Correctly points to /users/me
+  return request(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(updatedUserData),
   });
 };
+
+// ✅ Export checkResponse for use in other modules (e.g., weatherApi.js)
+export { checkResponse };

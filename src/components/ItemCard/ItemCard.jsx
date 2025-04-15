@@ -60,7 +60,7 @@ function ItemCard({ item, onCardClick, onCardLikes }) {
         <div className="item-card__name">{name}</div>
         {currentUser && (
           <button
-            className="item-card__like-button"
+            className={`${itemLikeButtonClassName}`} // Dynamically apply the class
             onClick={handleCardLikes}
             aria-label={isLiked ? "Unlike" : "Like"}
           >

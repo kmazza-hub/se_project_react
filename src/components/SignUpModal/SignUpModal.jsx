@@ -77,11 +77,20 @@ function SignUpModal({ onSignUp, onClose, onLogin }) {
           required
         />
       </div>
+
       <div className="modal__buttons">
-        <button type="button" onClick={onLogin} className="modal__login-link">
+        {/* Button for switching to the Login modal */}
+        <button
+          type="button"
+          onClick={onLogin}
+          className="modal__login-link"
+        >
           Log In
         </button>
+
         <p className="modal__or-text">or</p>
+
+        {/* Button for submitting the sign-up form */}
         <button type="submit" className="modal__submit">
           Next
         </button>
