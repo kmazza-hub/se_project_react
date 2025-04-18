@@ -94,6 +94,11 @@
   padding: 0px;
 }
 
+.modal__submit:hover {
+  color: #000;
+  background-color: transparent;
+}
+
 .modal__label {
   font-family: "CabinetGrotesk", sans-serif;
   font-weight: 700;

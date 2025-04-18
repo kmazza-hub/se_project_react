@@ -72,16 +72,6 @@ function ItemCard({ item, onCardClick, onCardLikes, onDeleteClick }) {
               />
             </button>
           )}
-          {isOwn && (
-            <button
-              className="item-card__delete-button"
-              onClick={handleDeleteClick}
-              aria-label="Delete"
-              title="Delete item"
-            >
-              🗑️
-            </button>
-          )}
         </div>
       </div>
     </li>

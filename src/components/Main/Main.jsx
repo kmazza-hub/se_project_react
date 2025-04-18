@@ -1,3 +1,4 @@
+// src/components/Main/Main.jsx
 import React, { useContext } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import "./Main.css";
@@ -6,6 +7,10 @@ import ItemCard from "../ItemCard/ItemCard";
 
 function Main({ weatherData, clothingItems, handleCardClick, onCardLike }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+
+  if (!weatherData) {
+    return <p>Loading weather...</p>;
+  }
 
   return (
     <main>

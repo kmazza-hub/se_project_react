@@ -15,12 +15,22 @@
   cursor: pointer;
 }
 
+.modal__close:hover {
+  color: #000;
+  background-color: transparent;
+}
+
 .modal__close-icon {
   height: 22px;
   width: 22px;
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+.modal__close-icon:hover {
+color:#000;
+background-color: transparent;
 }
 
 .modal__footer {
@@ -45,7 +55,8 @@
 }
 
 .modal__delete-button:hover {
-  text-decoration: underline;
+  color: #000;
+  background-color: transparent;
 }
 
 .modal__weather {

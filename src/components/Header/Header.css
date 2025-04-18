@@ -30,7 +30,8 @@
 }
 
 .header__add-button:hover {
-  color: #000;
+ color: #000;
+ background-color: transparent;
 }
 
 .header__user-info {
@@ -55,12 +56,6 @@
   object-fit: cover;
 }
 
-.header__auth-buttons {
-  display: flex;
-  gap: 12px;
-  margin-left: auto;
-}
-
 .header__auth-button {
   border: none;
   background: none;
@@ -72,5 +67,5 @@
 }
 
 .header__auth-button:hover {
-  color: #000; /* Solid black when hover */
+  color: #000; 
 }
