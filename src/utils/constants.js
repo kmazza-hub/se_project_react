@@ -29,6 +29,16 @@ export const weatherOptions = [
     condition: "snow",
     url: new URL("../assets/NSnow.svg", import.meta.url).href,
   },
+  {
+    day: true,
+    condition: "cold", // New condition for cold weather (daytime)
+    url: new URL("../assets/DCold.png", import.meta.url).href,
+  },
+  {
+    day: false,
+    condition: "cold", // New condition for cold weather (nighttime)
+    url: new URL("../assets/NCold.png", import.meta.url).href,
+  },
 ];
 
 export const defaultWeatherOptions = {

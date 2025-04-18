@@ -1,97 +1,55 @@
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import "./Header.css";
-import logo from "../../images/Wtwr-logo.svg";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import logo from "../../images/Wtwr-logo.svg";
 
-function Header({
-  handleAddClick,
-  weatherData,
-  currentTemperatureUnit,
-  handleToggleSwitchChange,
-  onLoginClick,
-  onSignUpClick,
-  onLogout,
-}) {
-  const currentDate = new Date().toLocaleString("default", {
-    month: "long",
-    day: "numeric",
-  });
-
+function Header({ weatherData, handleAddClick, onLoginClick, onSignUpClick, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
-  const location = useLocation();
-  const isOnProfilePage = location.pathname === "/profile";
 
   return (
     <header className="header">
-      <Link to="/">
-        <img src={logo} alt="wtwr logo" className="header__logo" />
-      </Link>
-
-      <p className="header__date-and-location">
-        {currentDate}, {weatherData.city}
-      </p>
-
-      <ToggleSwitch
-        isChecked={currentTemperatureUnit === "C"}
-        onToggle={handleToggleSwitchChange}
-      />
-
-      {currentUser && !isOnProfilePage && (
-        <button
-          onClick={handleAddClick}
-          type="button"
-          className="header__add-clothes-btn"
-        >
-          + Add Clothes
-        </button>
-      )}
-
-      {currentUser ? (
-        <div className="header__user-container">
-          <Link to="/profile">
-            <p className="header__username">{currentUser.name}</p>
-            {currentUser.avatar ? (
-              <img
-                src={currentUser.avatar}
-                alt={currentUser.name}
-                className="header__avatar"
-              />
-            ) : (
-              <div className="header__avatar-placeholder">
-                {currentUser.name
-                  ? currentUser.name.charAt(0).toUpperCase()
-                  : "?"}
-              </div>
-            )}
-          </Link>
-          <button
-            className="header__logout-btn"
-            onClick={onLogout}
-            type="button"
-          >
-            Log Out
-          </button>
+      <div className="header__container">
+        <div className="header__left">
+          <img src={logo} alt="WTWR logo" className="header__logo" />
+          <p className="header__weather">
+            {weatherData?.city
+              ? `${weatherData.temp.F}°F | ${weatherData.city}`
+              : "Loading weather..."}
+          </p>
         </div>
-      ) : (
-        <>
-          <button
-            className="header__login-btn"
-            type="button"
-            onClick={onLoginClick}
-          >
-            Login
-          </button>
-          <button
-            className="header__signup-btn"
-            type="button"
-            onClick={onSignUpClick}
-          >
-            Sign Up
-          </button>
-        </>
-      )}
+
+        <div className="header__right">
+          {isLoggedIn ? (
+            <>
+              <button
+                className="header__add-button"
+                type="button"
+                onClick={handleAddClick}
+              >
+                + Add Clothes
+              </button>
+              <div className="header__user-info">
+                <p className="header__username">
+                  {currentUser?.name || "User"}
+                </p>
+                <img
+                  className="header__avatar"
+                  src={currentUser?.avatar || "https://via.placeholder.com/40"}
+                  alt="User avatar"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="header__auth-buttons">
+              <button className="header__auth-button" onClick={onSignUpClick}>
+                Sign Up
+              </button>
+              <button className="header__auth-button" onClick={onLoginClick}>
+                Log In
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
     </header>
   );
 }

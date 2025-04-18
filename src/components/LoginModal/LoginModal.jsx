@@ -1,66 +1,59 @@
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import "./LoginModal.css";
 
-function LoginModal({ isOpen, onLogin, onClose, onRegister }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function LoginModal({ isOpen, onClose, onLogin, onRegister }) {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin({ email, password });
+    onLogin(formData);
   };
 
   return (
     <ModalWithForm
-      title="Log in"
       isOpen={isOpen}
-      onSubmit={handleSubmit}
       onClose={onClose}
-      submitText="Log in" // You can handle submit text directly here
+      onSubmit={handleSubmit}
+      title="Log In"
+      name="login"
+      buttonText="Log In"
     >
-      <div className="modal__input-group">
-        <label htmlFor="email" className="modal__label">
-          Email
-        </label>
+      <label className="modal__label">
+        Email
         <input
           type="email"
-          id="email"
           name="email"
-          className="modal__input"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           required
+          className="modal__input"
+          value={formData.email}
+          onChange={handleChange}
         />
-      </div>
-      <div className="modal__input-group">
-        <label htmlFor="password" className="modal__label">
-          Password
-        </label>
+      </label>
+      <label className="modal__label">
+        Password
         <input
           type="password"
-          id="password"
           name="password"
-          className="modal__input"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
           required
+          className="modal__input"
+          value={formData.password}
+          onChange={handleChange}
         />
-      </div>
-      <div className="modal__buttons">
-        <button type="submit" className="modal__submit-login">
-          Log in
-        </button>
+      </label>
+      <p className="modal__toggle-text">
+        Not a member yet?{" "}
         <button
           type="button"
-          onClick={onRegister}  // Directly call onRegister for the "Sign Up" action
-          className="modal__register-link"
+          className="modal__toggle-button"
+          onClick={onRegister}
         >
-          Sign Up
+          Sign up here
         </button>
-      </div>
+      </p>
     </ModalWithForm>
   );
 }

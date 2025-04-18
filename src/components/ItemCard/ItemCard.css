@@ -1,10 +1,10 @@
 .clothes-section__list {
   list-style: none;
   padding: 0;
-  margin-left: 120px;
   display: grid;
-  grid-template-columns: repeat(3, 325px);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 15px;
+  justify-items: center;
 }
 
 .item-card {
@@ -14,7 +14,7 @@
   border: 1px solid black;
   border-radius: 4px;
   width: 325px;
-  position: relative;
+  position: relative; /* Ensure header is positioned inside the card */
 }
 
 .item-card__image {
@@ -25,7 +25,7 @@
 
 .item-card__header {
   position: absolute;
-  top: 5px;
+  top: 10px; /* Adjusted for spacing */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -54,18 +54,18 @@
 }
 
 .item-card__like-button_active {
-  background-color: red; /* Turn red when the item is liked */
+  background-color: red;
+  transition: background-color 0.3s ease;
 }
 
 .item-card__like-button:hover {
-  background-color: darkred; /* Dark red when hovered */
+  background-color: darkred;
 }
 
 .item-card__like-image {
   width: 22px;
   height: 22px;
 }
-
 
 .item-card__weather {
   position: absolute;
@@ -74,4 +74,7 @@
   transform: translateX(-50%);
   color: white;
   font-size: 14px;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 5px;
+  border-radius: 4px;
 }
