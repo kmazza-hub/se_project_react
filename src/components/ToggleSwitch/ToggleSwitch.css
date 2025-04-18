@@ -37,7 +37,7 @@
 }
 
 .toggle-switch__checkbox:checked + .toggle-switch__slider {
-  background-color: #ccc; 
+  background-color: #000; 
 }
 
 .toggle-switch__checkbox:checked + .toggle-switch__slider:before {

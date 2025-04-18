@@ -4,23 +4,17 @@ import likeBtnImage from "../../images/like-btn.png";
 import likeBtnActiveImage from "../../images/like-btn-active.png";
 import "./ItemCard.css";
 
-function ItemCard({ item, onCardClick, onCardLikes }) {
-  const { _id, name, imageUrl, likes } = item;
+function ItemCard({ item, onCardClick, onCardLikes, onDeleteClick }) {
+  const { _id, name, imageUrl, likes, owner } = item;
   const currentUser = useContext(CurrentUserContext);
 
   const [isLiked, setIsLiked] = useState(
-    currentUser ? likes.some((id) => id === currentUser._id) : false
+    currentUser ? likes.includes(currentUser._id) : false
   );
 
   useEffect(() => {
-    setIsLiked(
-      currentUser ? likes.some((id) => id === currentUser._id) : false
-    );
+    setIsLiked(currentUser ? likes.includes(currentUser._id) : false);
   }, [likes, currentUser]);
-
-  const itemLikeButtonClassName = isLiked
-    ? "item-card__like-button_active"
-    : "item-card__like-button";
 
   const handleCardLikes = () => {
     if (!currentUser) {
@@ -28,18 +22,18 @@ function ItemCard({ item, onCardClick, onCardLikes }) {
       return;
     }
 
-    const previousIsLiked = isLiked; 
+    const previousIsLiked = isLiked;
     const newIsLiked = !isLiked;
     setIsLiked(newIsLiked);
 
-    const result = onCardLikes({ id: item._id, isLiked: newIsLiked });
+    const result = onCardLikes({ id: _id, isLiked: newIsLiked });
 
     if (result instanceof Promise) {
       result
         .then(() => {})
         .catch((error) => {
           console.error("Failed to toggle like:", error);
-          setIsLiked(previousIsLiked); 
+          setIsLiked(previousIsLiked);
         });
     }
   };
@@ -47,6 +41,12 @@ function ItemCard({ item, onCardClick, onCardLikes }) {
   const handleImageClick = () => {
     onCardClick(item);
   };
+
+  const handleDeleteClick = () => {
+    onDeleteClick(item); // opens the DeleteConfirmationModal with this item
+  };
+
+  const isOwn = currentUser && owner === currentUser._id;
 
   return (
     <li className="item-card">
@@ -58,19 +58,31 @@ function ItemCard({ item, onCardClick, onCardLikes }) {
       />
       <div className="item-card__header">
         <div className="item-card__name">{name}</div>
-        {currentUser && (
-          <button
-            className={`${itemLikeButtonClassName}`} // Dynamically apply the class
-            onClick={handleCardLikes}
-            aria-label={isLiked ? "Unlike" : "Like"}
-          >
-            <img
-              src={isLiked ? likeBtnActiveImage : likeBtnImage}
-              alt={isLiked ? "Unlike" : "Like"}
-              className="item-card__like-image"
-            />
-          </button>
-        )}
+        <div className="item-card__actions">
+          {currentUser && (
+            <button
+              className="item-card__like-button"
+              onClick={handleCardLikes}
+              aria-label={isLiked ? "Unlike" : "Like"}
+            >
+              <img
+                src={isLiked ? likeBtnActiveImage : likeBtnImage}
+                alt={isLiked ? "Unlike" : "Like"}
+                className="item-card__like-image"
+              />
+            </button>
+          )}
+          {isOwn && (
+            <button
+              className="item-card__delete-button"
+              onClick={handleDeleteClick}
+              aria-label="Delete"
+              title="Delete item"
+            >
+              🗑️
+            </button>
+          )}
+        </div>
       </div>
     </li>
   );

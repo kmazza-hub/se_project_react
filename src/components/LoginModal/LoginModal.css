@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  z-index: 1000;
 }
 
 .modal_opened {
@@ -18,8 +17,8 @@
 
 .modal__close-btn {
   position: absolute;
-  top: 28px;
-  right: 28px;
+  top: 50px;
+  right: 20px;
   cursor: pointer;
   background: none;
   border: none;
@@ -34,17 +33,17 @@
   width: 100%;
   border-radius: 20px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 
 .modal__title-login {
-  margin: 0 0 20px 0;
+  margin: 0;
   font-family: "CabinetGrotesk", sans-serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  top: 0px;
 }
 
 .modal__form {
@@ -54,8 +53,6 @@
 }
 
 .modal__input-group {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 20px;
 }
 
@@ -68,43 +65,50 @@
 }
 
 .modal__input {
-  border: none;
-  border-bottom: 1px solid #000;
-  width: 100%;
+  display: block;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  width: 440px;
   height: 29px;
   font-family: "CabinetGrotesk", sans-serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
+  margin-bottom: 8px;
   padding: 0;
-  outline: none;
 }
 
-.modal__buttons {
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
+.modal__submit-login {
+  width: 124px;
+  height: 36px;
+  border-radius: 4px;
+  border: none;
+  color: #fff;
+  background-color: #000000;
+  opacity: 0.3;
   margin-top: 40px;
+  cursor: pointer;
+  margin: 0;
 }
 
-.modal__submit-login,
 .modal__register-link {
   width: 124px;
   height: 36px;
   border-radius: 4px;
   border: none;
   color: #fff;
-  background-color: #000;
-  opacity: 1;
+  background-color: #000000;
+  opacity: 0.3;
+  margin-top: 40px;
   cursor: pointer;
-  font-family: "CabinetGrotesk", sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
+  margin: 0;
+  margin-right: 125px;
+  top: 238px;
 }
 
-.modal__register-link {
-  background-color: transparent;
-  color: #000;
-  border: 1px solid #000;
+.modal__buttons {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0px;
 }

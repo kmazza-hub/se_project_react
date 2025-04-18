@@ -10,16 +10,14 @@
   margin-right: 24px;
 }
 
-.header__date-and-location {
+.header__weather {
   margin: 0;
   font-weight: 700;
   font-size: 20px;
   line-height: 24.8px;
 }
 
-.header__add-clothes-btn,
-.header__login-btn,
-.header__signup-btn {
+.header__add-button {
   margin-left: auto;
   border: none;
   cursor: pointer;
@@ -31,7 +29,11 @@
   color: #000;
 }
 
-.header__user-container {
+.header__add-button:hover {
+  color: #000;
+}
+
+.header__user-info {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -51,4 +53,24 @@
   width: 60px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.header__auth-buttons {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.header__auth-button {
+  border: none;
+  background: none;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24.8px;
+  color: #000;
+  cursor: pointer;
+}
+
+.header__auth-button:hover {
+  color: #000; /* Solid black when hover */
 }

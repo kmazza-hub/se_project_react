@@ -20,7 +20,7 @@ function ItemModal({ item, isOpen, onClose, onDelete }) {
       return;
     }
 
-    onDelete(item); 
+    onDelete(item);
   };
 
   return (
@@ -33,11 +33,7 @@ function ItemModal({ item, isOpen, onClose, onDelete }) {
             className="modal__close-icon-garment"
           />
         </button>
-        <img 
-          src={item?.imageUrl || "/path/to/default-image.jpg"}  
-          alt={item?.name || "Item image"}
-          className="modal__image"
-        />
+        <img src={item?.imageUrl} alt={item?.name} className="modal__image" />
         <div className="modal__body">
           <h2 className="modal__title">{item?.name}</h2>
           <p className="modal__weather">Weather: {item?.weather}</p>
