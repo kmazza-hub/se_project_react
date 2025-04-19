@@ -1,58 +1,50 @@
+/* src/components/ItemCard/ItemCard.css */
+
 .item-card {
-  width: 228px;
-  height: 280px;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 16px 12px 16px 12px;
+  overflow: hidden;
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 325px;
+  position: relative;
+  background-color: white;
 }
 
-.item-card__top {
-  width: 100%;
+.item-card__header {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 12px;
+  gap: 10px;
 }
 
-.item-card__name-heart-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.item-card__name-tag {
-  background-color: #ffffff;
-  padding: 4px 8px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.item-card__name {
+  background: white;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 .item-card__like-button {
-  width: 24px;
-  height: 24px;
-  background: url("../../images/heart-unliked.svg") no-repeat center;
-  background-size: contain;
+  background: none;
   border: none;
   cursor: pointer;
 }
 
-.item-card__like-button_liked {
-  background: url("../../images/heart-liked.svg") no-repeat center;
-  background-size: contain;
+.item-card__like-image {
+  width: 20px;
+  height: 20px;
 }
 
 .item-card__image {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 328px;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }

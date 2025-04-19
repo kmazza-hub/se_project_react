@@ -1,29 +1,26 @@
 // src/components/App/App.jsx
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import "./App.css";
+import { signin, signup, getUserData, getItems, addItem, deleteItem, addCardLikes, removeCardLikes, editUserProfile } from "../../utils/api";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import { getWeather, filterWeatherData } from "../../utils/weatherApi";
+import { coordinates, APIkey } from "../../utils/constants";
 
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
+import ProtectedRoute from "./ProtectedRoute"; // ✅ Correct path
+import SignUpModal from "../SignUpModal/SignUpModal";
+import LoginModal from "../LoginModal/LoginModal";
 import AddItemModal from "../ModalWithForm/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import LoginModal from "../LoginModal/LoginModal";
-import SignUpModal from "../SignUpModal/SignUpModal";
 import ChangeProfileModal from "../Profile/ChangeProfileModal";
-import Footer from "../Footer/Footer";
-import ProtectedRoute from "./ProtectedRoute";
-
-import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-
-import { coordinates, APIkey } from "../../utils/constants";
-import { getWeather, filterWeatherData } from "../../utils/weatherApi";
-import { getItems, addItem, deleteItem, addCardLikes, removeCardLikes } from "../../utils/api";
-import { signup, signin, getUserData, editUserProfile } from "../../utils/auth";
-
 import { Toaster, toast } from "react-hot-toast";
+
+import "./App.css";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
@@ -38,6 +35,7 @@ function App() {
   const navigate = useNavigate();
 
   const openModal = (modalName) => setActiveModal(modalName);
+
   const closeModal = () => {
     setActiveModal("");
     setSelectedCard(null);
@@ -72,11 +70,6 @@ function App() {
   };
 
   const handleAddItemSubmit = async (item) => {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      console.error("No token found.");
-      return;
-    }
     try {
       const newItem = await addItem(item);
       setClothingItems((prev) => [newItem, ...prev]);
@@ -89,13 +82,8 @@ function App() {
   };
 
   const handleCardLikes = ({ id, isLiked }) => {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      console.error("No token found.");
-      return;
-    }
     const likeAction = isLiked ? addCardLikes : removeCardLikes;
-    return likeAction(id, token)
+    return likeAction(id)
       .then((updatedCard) => {
         setClothingItems((prev) =>
           prev.map((item) => (item._id === id ? updatedCard : item))
@@ -106,32 +94,28 @@ function App() {
 
   const handleRegister = (userData) => {
     signup(userData)
-      .then(() => {
-        console.log("Signup successful!");
+      .then(() => signin({ email: userData.email, password: userData.password }))
+      .then(() => getUserData())
+      .then((user) => {
+        setCurrentUser(user);
+        setIsLoggedIn(true);
         closeModal();
-        openModal("login"); // Open login after signup
+        navigate("/profile");
       })
       .catch((err) => {
-        console.error("Signup failed", err);
-        toast.error("Signup failed.");
+        console.error(err);
+        toast.error("Registration/Login failed.");
       });
   };
 
   const handleLogin = (credentials) => {
     signin(credentials)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
-
-          return getUserData(res.token)
-            .then((data) => {
-              setCurrentUser(data);
-              setIsLoggedIn(true);
-              navigate("/profile"); // Navigate only after fetching user
-              closeModal();
-            });
-        }
-        throw new Error("Login failed");
+      .then(() => getUserData())
+      .then((user) => {
+        setCurrentUser(user);
+        setIsLoggedIn(true);
+        navigate("/profile");
+        closeModal();
       })
       .catch((err) => {
         console.error(err);
@@ -147,16 +131,17 @@ function App() {
     toast.success("Logged out successfully.");
   };
 
-  const handleChangeProfile = async (updatedData) => {
-    try {
-      const updatedUser = await editUserProfile(updatedData);
-      setCurrentUser(updatedUser);
-      closeModal();
-      toast.success("Profile updated successfully!");
-    } catch (err) {
-      console.error("Failed to update user profile", err);
-      toast.error("Failed to update profile.");
-    }
+  const handleChangeProfile = (updatedData) => {
+    editUserProfile(updatedData)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        closeModal();
+        toast.success("Profile updated successfully!");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to update profile.");
+      });
   };
 
   useEffect(() => {
@@ -167,17 +152,15 @@ function App() {
       })
       .catch(console.error);
 
-    getItems()
-      .then(setClothingItems)
-      .catch(console.error);
-
     const token = localStorage.getItem("jwt");
     if (token) {
-      getUserData(token)
+      getUserData()
         .then((data) => {
           setCurrentUser(data);
           setIsLoggedIn(true);
+          return getItems();
         })
+        .then(setClothingItems)
         .catch(console.error);
     }
   }, []);
@@ -199,68 +182,35 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={
-                  <Main
-                    weatherData={weatherData}
-                    clothingItems={clothingItems}
-                    handleCardClick={handleCardClick}
-                    onCardLike={handleCardLikes}
-                  />
-                }
+                element={<Main weatherData={weatherData} clothingItems={clothingItems} handleCardClick={handleCardClick} onCardLike={handleCardLikes} />}
               />
               <Route
                 path="/profile"
                 element={
                   <ProtectedRoute isLoggedIn={isLoggedIn}>
-                    <Profile
-                      clothingItems={clothingItems}
-                      onCardClick={handleCardClick}
-                      handleAddClick={() => openModal("add-garment")}
-                      onEditProfileClick={() => openModal("edit-profile")}
-                      onDelete={handleDeleteConfirmation}
-                    />
+                    <Profile clothingItems={clothingItems} onCardClick={handleCardClick} handleAddClick={() => openModal("add-garment")} onEditProfileClick={() => openModal("edit-profile")} onDelete={handleDeleteConfirmation} />
                   </ProtectedRoute>
                 }
               />
             </Routes>
 
-            <AddItemModal
-              isOpen={activeModal === "add-garment"}
-              onAddItem={handleAddItemSubmit}
-              onCloseModal={closeModal}
-            />
+            <AddItemModal isOpen={activeModal === "add-garment"} onAddItem={handleAddItemSubmit} onCloseModal={closeModal} />
+
+            {/* ✅ Corrected: now using onDeleteRequest */}
             <ItemModal
               isOpen={activeModal === "preview"}
               item={selectedCard}
               onClose={closeModal}
-              onDelete={handleDeleteConfirmation}
+              onDeleteRequest={handleDeleteConfirmation}
             />
-            <DeleteConfirmationModal
-              isOpen={activeModal === "delete-confirmation"}
-              onClose={closeModal}
-              onConfirm={handleDeleteItem}
-              item={itemToDelete}
-            />
-            <ChangeProfileModal
-              isOpen={activeModal === "edit-profile"}
-              onClose={closeModal}
-              onChangeProfile={handleChangeProfile}
-            />
-            {activeModal === "login" && (
-              <LoginModal
-                isOpen={true}
-                onLogin={handleLogin}
-                onClose={closeModal}
-                onRegister={() => openModal("signup")}
-              />
-            )}
-            {activeModal === "signup" && (
-              <SignUpModal
-                onSignUp={handleRegister}
-                onClose={closeModal}
-                onLogin={() => openModal("login")}
-              />
-            )}
+
+            <DeleteConfirmationModal isOpen={activeModal === "delete-confirmation"} onClose={closeModal} onConfirm={handleDeleteItem} item={itemToDelete} />
+
+            <ChangeProfileModal isOpen={activeModal === "edit-profile"} onClose={closeModal} onChangeProfile={handleChangeProfile} />
+
+            {activeModal === "login" && <LoginModal isOpen={true} onLogin={handleLogin} onClose={closeModal} onRegister={() => openModal("signup")} />}
+            {activeModal === "signup" && <SignUpModal onSignUp={handleRegister} onClose={closeModal} onLogin={() => openModal("login")} />}
+
             <Footer />
           </div>
         </div>

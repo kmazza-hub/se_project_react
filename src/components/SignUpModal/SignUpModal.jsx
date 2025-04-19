@@ -1,9 +1,10 @@
+// src/components/SignUpModal/SignUpModal.jsx
+
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { signup } from "../../utils/api"; // ✅ Import signup
 import "./SignUpModal.css";
 
-function SignUpModal({ onClose, onLogin }) {
+function SignUpModal({ onSignUp, onClose, onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -11,21 +12,12 @@ function SignUpModal({ onClose, onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    signup({
-      name,
+    onSignUp({
       email,
       password,
-      avatar: avatarUrl,
-    })
-      .then(() => {
-        console.log("Signup successful");
-        onClose(); // Close signup modal
-        onLogin(); // Open login modal
-      })
-      .catch((error) => {
-        console.error("Signup failed:", error);
-      });
+      name,
+      avatar: avatarUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+    });
   };
 
   return (
@@ -34,12 +26,10 @@ function SignUpModal({ onClose, onLogin }) {
       isOpen={true}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText="Next" // ✅ Important! Pass button text!
+      buttonText="Next"
     >
       <div className="modal__input-group">
-        <label htmlFor="name-input" className="modal__label">
-          Name
-        </label>
+        <label htmlFor="name-input" className="modal__label">Name</label>
         <input
           type="text"
           id="name-input"
@@ -52,9 +42,7 @@ function SignUpModal({ onClose, onLogin }) {
       </div>
 
       <div className="modal__input-group">
-        <label htmlFor="email-input" className="modal__label">
-          Email
-        </label>
+        <label htmlFor="email-input" className="modal__label">Email</label>
         <input
           type="email"
           id="email-input"
@@ -67,9 +55,7 @@ function SignUpModal({ onClose, onLogin }) {
       </div>
 
       <div className="modal__input-group">
-        <label htmlFor="password-input" className="modal__label">
-          Password
-        </label>
+        <label htmlFor="password-input" className="modal__label">Password</label>
         <input
           type="password"
           id="password-input"
@@ -82,17 +68,14 @@ function SignUpModal({ onClose, onLogin }) {
       </div>
 
       <div className="modal__input-group">
-        <label htmlFor="avatarUrl-input" className="modal__label">
-          Avatar URL
-        </label>
+        <label htmlFor="avatarUrl-input" className="modal__label">Avatar URL</label>
         <input
           type="url"
           id="avatarUrl-input"
           className="modal__input"
-          placeholder="Avatar URL"
+          placeholder="Avatar URL (optional)"
           value={avatarUrl}
           onChange={(e) => setAvatarUrl(e.target.value)}
-          required
         />
       </div>
 
@@ -101,7 +84,9 @@ function SignUpModal({ onClose, onLogin }) {
           Log In
         </button>
         <p className="modal__or-text">or</p>
-        {/* ModalWithForm renders the Submit button automatically */}
+        <button type="submit" className="modal__submit">
+          Next
+        </button>
       </div>
     </ModalWithForm>
   );
