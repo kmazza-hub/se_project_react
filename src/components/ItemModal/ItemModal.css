@@ -1,79 +1,67 @@
-.modal__image {
+.modal__content-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal__item-image {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
-.modal__close {
-  border: none;
-  background-color: #fff;
-  padding: 0px;
-  background-color: transparent;
-  position: absolute;
-  top: -25px;
-  left: 450px;
-  cursor: pointer;
-}
-
-.modal__close:hover {
-  color: #000;
-  background-color: transparent;
-}
-
-.modal__close-icon {
-  height: 22px;
-  width: 22px;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.modal__close-icon:hover {
-color:#000;
-background-color: transparent;
-}
-
-.modal__footer {
+.modal__item-footer {
+  width: 100%;
+  background: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  border-top: 1px solid #eee;
+}
+
+.modal__item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__item-name {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.modal__item-weather {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666;
 }
 
 .modal__delete-button {
-  background: none;
   border: none;
-  color: inherit;
-  cursor: pointer;
-  text-align: right;
+  background: none;
   color: red;
-  position: relative;
-  left: 350px;
-  bottom: 33px;
-  padding: 0px;
-  font-family: "CabinetGrotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
 }
 
 .modal__delete-button:hover {
-  color: #000;
-  background-color: transparent;
-}
-
-.modal__weather {
-  max-width: 120px;
-  position: relative;
-  top: 33px;
-  margin-top: 0px;
-  font-family: "CabinetGrotesk", sans-serif;
-}
-
-.modal__title {
-  position: relative;
-  top: 20px;
-  color: #000000;
-  width: 120px;
-  margin-bottom: 0px;
-  font-size: 18px;
-  margin-top: 0px;
-  font-family: "CabinetGrotesk", sans-serif;
+  opacity: 0.6;
 }

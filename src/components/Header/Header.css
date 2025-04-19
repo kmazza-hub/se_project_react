@@ -1,71 +1,111 @@
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 32px 40px 28px;
-  font-family: "CabinetGrotesk", sans-serif;
+  align-items: center;
+  padding: 24px 40px;
+  width: 100%;
+  font-family: 'Inter', 'Arial', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .header__logo {
-  margin-right: 24px;
-}
-
-.header__weather {
-  margin: 0;
+  font-size: 24px;
   font-weight: 700;
-  font-size: 20px;
-  line-height: 24.8px;
+  text-decoration: none;
+  color: black;
 }
 
-.header__add-button {
-  margin-left: auto;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24.8px;
-  padding: 0;
-  background: none;
-  color: #000;
+.header__location {
+  font-size: 18px;
+  font-weight: 400;
+  color: black;
 }
 
-.header__add-button:hover {
- color: #000;
- background-color: transparent;
-}
-
-.header__user-info {
+.header__right {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: auto;
+  gap: 20px;
 }
 
-.header__username {
-  margin: 0;
+.header__add-button,
+.header__logout-button,
+.header__auth-button {
+  font-size: 18px;
   font-weight: 700;
-  font-size: 20px;
-  line-height: 24.8px;
-  cursor: default;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  color: black;
+}
+
+.header__add-button:hover,
+.header__logout-button:hover,
+.header__auth-button:hover {
+  opacity: 0.6;
+}
+
+.header__profile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header__profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: black;
 }
 
 .header__avatar {
-  height: 60px;
-  width: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.header__auth-button {
-  border: none;
-  background: none;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24.8px;
-  color: #000;
-  cursor: pointer;
-}
+/* ------------------- */
+/* Responsive Mobile View */
+/* ------------------- */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 20px;
+  }
 
-.header__auth-button:hover {
-  color: #000; 
+  .header__left {
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .header__right {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .header__add-button,
+  .header__logout-button,
+  .header__auth-button {
+    font-size: 16px;
+  }
+
+  .header__profile-name {
+    font-size: 16px;
+  }
+
+  .header__avatar {
+    width: 32px;
+    height: 32px;
+  }
 }

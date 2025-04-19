@@ -1,71 +1,58 @@
 .item-card {
+  width: 228px;
+  height: 280px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  border: 1px solid black;
-  border-radius: 4px;
-  width: 325px;
-  position: relative;
+  align-items: center;
+  padding: 16px 12px 16px 12px;
+}
+
+.item-card__top {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.item-card__name-heart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.item-card__name-tag {
+  background-color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.item-card__like-button {
+  width: 24px;
+  height: 24px;
+  background: url("../../images/heart-unliked.svg") no-repeat center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}
+
+.item-card__like-button_liked {
+  background: url("../../images/heart-liked.svg") no-repeat center;
+  background-size: contain;
 }
 
 .item-card__image {
   width: 100%;
-  height: 328px;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.item-card__header {
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  padding: 4px 8px;
-}
-
-.item-card__name {
-  color: #444;
-  font-size: 16px;
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.item-card__actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.item-card__like-button,
-.item-card__like-button_active {
-  width: 22px;
-  height: 22px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.item-card__like-image {
-  width: 100%;
-  height: 100%;
-}
-
-.item-card__delete-button {
-  background-color: transparent;
-  border: none;
-  color: red;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.2s ease;
-}
-
-.item-card__delete-button:hover {
-  transform: scale(1.2);
+  height: auto;
+  object-fit: contain;
 }

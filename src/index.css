@@ -3,3 +3,54 @@
 @import "./components/Profile/ClothesSection.css";
 @import "./components/Profile/Profile.css";
 @import "./components/Profile/SideBar.css";
+
+/* Importing base styles */
+@import url(./vendor/normalize.css);
+@import "./components/itemmodal/itemmodal.css";
+@import "./components/Profile/ClothesSection.css";
+@import "./components/Profile/Profile.css";
+@import "./components/Profile/SideBar.css";
+
+/* === Global styles === */
+
+/* Global button reset and styling */
+button {
+  font-family: "CabinetGrotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.6;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: black;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ------------------- */
+/* Mobile Base Styles */
+/* ------------------- */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+
+
+/* You can add more global styles below here if needed */

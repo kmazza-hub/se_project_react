@@ -1,82 +1,85 @@
-.modal.modal_delete-confirmation {
+.modal_delete-confirmation {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5); /* Background overlay */
   display: flex;
-  justify-content: center;
   align-items: center;
-  visibility: visible;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .modal__content-delete {
-  width: 670px;
-  height: 280px;
-  background: #fff;
-  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  border-radius: 12px;
-  z-index: 9999;
+  position: relative;
 }
 
 .modal__close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
   cursor: pointer;
 }
 
+.modal__close-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .modal__title-delete {
   font-size: 20px;
-  margin: 20px 0 10px 0;
-  text-align: center;
-  width: 100%;
-  white-space: nowrap;
-  font-family: "CabinetGrotesk", sans-serif;
-  margin-top: 50px;
+  font-weight: 700;
+  margin-bottom: 24px;
 }
 
 .modal__text-delete {
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 400;
   text-align: center;
-  margin: 20px 0 0 0;
-  width: 100%;
-  white-space: nowrap;
-  font-family: "CabinetGrotesk", sans-serif;
-  margin-top: 0px;
+  margin-bottom: 32px;
 }
 
 .modal__buttons-delete {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: auto;
-  margin-bottom: 20px;
+  gap: 20px;
 }
 
 .modal__delete-button-confirm {
-  padding: 10px 20px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 1px solid #000;
+  border-radius: 12px;
+  background: none;
   cursor: pointer;
-  background-color: transparent;
-  color: #ff4d4d;
-  border: none;
-  font-family: "CabinetGrotesk", sans-serif;
+  transition: opacity 0.3s ease;
+}
+
+.modal__delete-button-confirm:hover {
+  opacity: 0.6;
 }
 
 .modal__cancel-button {
-  padding: 10px 20px;
-  margin: 0;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 1px solid #000;
+  border-radius: 12px;
+  background: none;
   cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: transparent;
-  font-family: "CabinetGrotesk", sans-serif;
-  margin-bottom: 30px;
+  transition: opacity 0.3s ease;
+}
+
+.modal__cancel-button:hover {
+  opacity: 0.6;
 }

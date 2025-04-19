@@ -1,45 +1,43 @@
 import React, { useContext } from "react";
-import "./ItemModal.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import closeIcon2 from "../../images/close-icon2.png";
+import "./ItemModal.css";
 
-function ItemModal({ item, isOpen, onClose, onDelete }) {
-  if (!isOpen || !item) return null; 
-
+function ItemModal({ item, onClose, onDelete, isOpen }) {
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = item?.owner === currentUser?._id;
 
-  const handleDelete = () => {
-    if (!item || !item._id) {
-      console.error("Item is missing or invalid", item);
-      return;
-    }
+  if (!item) {
+    return null;
+  }
 
-    if (typeof onDelete !== "function") {
-      console.error("onDelete is not a function");
-      return;
-    }
-
-    onDelete(item);
-  };
+  const isOwn = currentUser && item.owner === currentUser._id;
 
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
-      <div className="modal__content modal__content-items">
+      <div className="modal__content modal__content-item">
+        
+        {/* Close Button */}
         <button onClick={onClose} type="button" className="modal__close">
-          <img
-            src={closeIcon2}
-            alt="Close"
-            className="modal__close-icon-garment"
-          />
+          ✕
         </button>
-        <img src={item?.imageUrl} alt={item?.name} className="modal__image" />
-        <div className="modal__body">
-          <h2 className="modal__title">{item?.name}</h2>
-          <p className="modal__weather">Weather: {item?.weather}</p>
+
+        {/* Item Image */}
+        <img src={item.imageUrl} alt={item.name} className="modal__item-image" />
+
+        {/* Footer */}
+        <div className="modal__item-footer">
+          <div className="modal__item-info">
+            <h2 className="modal__item-name">{item.name}</h2>
+            <p className="modal__item-weather">Weather: {item.weather}</p>
+          </div>
+
+          {/* Delete Button */}
           {isOwn && (
-            <button className="modal__delete-button" onClick={handleDelete}>
-              Delete Item
+            <button
+              type="button"
+              className="modal__delete-button"
+              onClick={() => onDelete(item)}
+            >
+              Delete item
             </button>
           )}
         </div>

@@ -22,6 +22,8 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { getItems, addItem, deleteItem, addCardLikes, removeCardLikes } from "../../utils/api";
 import { signup, signin, getUserData, editUserProfile } from "../../utils/auth";
 
+import { Toaster, toast } from "react-hot-toast"; // <--- ADD TOASTS
+
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [activeModal, setActiveModal] = useState("");
@@ -65,8 +67,10 @@ function App() {
       await deleteItem(itemToDelete._id);
       setClothingItems((prev) => prev.filter((i) => i._id !== itemToDelete._id));
       closeModal();
+      toast.success("Garment deleted successfully!");
     } catch (err) {
       console.error("Failed to delete item:", err);
+      toast.error("Failed to delete garment.");
     }
   };
 
@@ -80,8 +84,10 @@ function App() {
       const newItem = await addItem(item);
       setClothingItems((prev) => [newItem, ...prev]);
       closeModal();
+      toast.success("Garment added successfully!");
     } catch (err) {
       console.error("Failed to add item:", err);
+      toast.error("Failed to add garment.");
     }
   };
 
@@ -126,7 +132,10 @@ function App() {
         closeModal();
         navigate("/profile");
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error("Registration/Login failed.");
+      });
   };
 
   const handleLogin = (credentials) => {
@@ -144,7 +153,10 @@ function App() {
         navigate("/profile");
         closeModal();
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error("Login failed. Please check your credentials.");
+      });
   };
 
   const handleLogout = () => {
@@ -152,6 +164,7 @@ function App() {
     setCurrentUser(null);
     setIsLoggedIn(false);
     navigate("/");
+    toast.success("Logged out successfully.");
   };
 
   const handleChangeProfile = async (updatedData) => {
@@ -159,8 +172,10 @@ function App() {
       const updatedUser = await editUserProfile(updatedData);
       setCurrentUser(updatedUser);
       closeModal();
+      toast.success("Profile updated successfully!");
     } catch (err) {
       console.error("Failed to update user profile", err);
+      toast.error("Failed to update profile.");
     }
   };
 
@@ -191,6 +206,7 @@ function App() {
     <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
+          <Toaster position="top-center" reverseOrder={false} /> {/* Toast Popups */}
           <div className="page__content">
             <Header
               weatherData={weatherData}
