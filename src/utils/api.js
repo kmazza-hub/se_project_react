@@ -1,6 +1,6 @@
-const baseUrl = "http://localhost:3001"; // Fixed: Removed the trailing slash
+const baseUrl = "http://localhost:3001"; // ✅ Correct base URL
 
-// ✅ Helper function to check the response from fetch
+// ✅ Helper to check fetch responses
 function checkResponse(res) {
   if (!res.ok) {
     throw new Error(`Error: ${res.status}`);
@@ -8,17 +8,30 @@ function checkResponse(res) {
   return res.json();
 }
 
-// ✅ Function to handle fetch requests
+// ✅ Core fetch wrapper
 export function request(url, options = {}) {
   return fetch(url, options).then(checkResponse);
 }
 
-// ✅ Get items from the server
+// ✅ Get clothing items (token optional!)
 export const getItems = () => {
-  return request(`${baseUrl}/items`);
+  const token = localStorage.getItem("jwt");
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return request(`${baseUrl}/items`, {
+    method: "GET",
+    headers,
+  });
 };
 
-// ✅ Add an item to the server
+// ✅ Add an item (requires token)
 export const addItem = (item) => {
   const token = localStorage.getItem("jwt");
   if (!token) {
@@ -35,7 +48,7 @@ export const addItem = (item) => {
   });
 };
 
-// ✅ Delete an item from the server
+// ✅ Delete an item (requires token)
 export const deleteItem = (id) => {
   const token = localStorage.getItem("jwt");
   if (!token) {
@@ -52,7 +65,7 @@ export const deleteItem = (id) => {
 
 // ✅ User signup
 export const signup = (userData) => {
-  return request(`${baseUrl}/users/signup`, {
+  return request(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,17 +76,27 @@ export const signup = (userData) => {
 
 // ✅ User signin
 export const signin = (credentials) => {
-  return request(`${baseUrl}/users/signin`, {
+  return request(`${baseUrl}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
+  }).then((data) => {
+    if (data.token) {
+      localStorage.setItem("jwt", data.token); // ✅ Save token!
+    }
+    return data;
   });
 };
 
-// ✅ Add a like to an item
-export const addCardLikes = (id, token) => {
+// ✅ Add like to item
+export const addCardLikes = (id) => {
+  const token = localStorage.getItem("jwt");
+  if (!token) {
+    throw new Error("Authentication required");
+  }
+
   return request(`${baseUrl}/items/${id}/likes`, {
     method: "PUT",
     headers: {
@@ -82,8 +105,13 @@ export const addCardLikes = (id, token) => {
   });
 };
 
-// ✅ Remove a like from an item
-export const removeCardLikes = (id, token) => {
+// ✅ Remove like from item
+export const removeCardLikes = (id) => {
+  const token = localStorage.getItem("jwt");
+  if (!token) {
+    throw new Error("Authentication required");
+  }
+
   return request(`${baseUrl}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
@@ -92,8 +120,9 @@ export const removeCardLikes = (id, token) => {
   });
 };
 
-// ✅ Get user data based on the token
-export const getUserData = (token) => {
+// ✅ Get user info
+export const getUserData = () => {
+  const token = localStorage.getItem("jwt");
   if (!token) {
     throw new Error("No token found");
   }
@@ -107,7 +136,7 @@ export const getUserData = (token) => {
   });
 };
 
-// ✅ Edit the current user's profile
+// ✅ Edit user profile
 export const editUserProfile = (updatedUserData) => {
   const token = localStorage.getItem("jwt");
   if (!token) {
@@ -124,5 +153,4 @@ export const editUserProfile = (updatedUserData) => {
   });
 };
 
-// ✅ Export checkResponse for use in other modules (e.g., weatherApi.js)
-export { checkResponse };
+export { checkResponse }; // ✅ Export helper if needed

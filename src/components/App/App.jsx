@@ -13,23 +13,23 @@ import LoginModal from "../LoginModal/LoginModal";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import ChangeProfileModal from "../Profile/ChangeProfileModal";
 import Footer from "../Footer/Footer";
-import ProtectedRoute from "../App/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
 import { coordinates, APIkey } from "../../utils/constants";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { getItems, addItem, deleteItem, addCardLikes, removeCardLikes } from "../../utils/api";
 import { signup, signin, getUserData, editUserProfile } from "../../utils/auth";
 
-import { Toaster, toast } from "react-hot-toast"; // <--- ADD TOASTS
+import { Toaster, toast } from "react-hot-toast";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null);
-
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
@@ -37,10 +37,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  const openModal = (modalName) => {
-    setActiveModal(modalName);
-  };
-
+  const openModal = (modalName) => setActiveModal(modalName);
   const closeModal = () => {
     setActiveModal("");
     setSelectedCard(null);
@@ -109,32 +106,14 @@ function App() {
 
   const handleRegister = (userData) => {
     signup(userData)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
-          return signin({
-            email: userData.email,
-            password: userData.password,
-          });
-        }
-        throw new Error("Registration failed");
-      })
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
-          return getUserData(res.token);
-        }
-        throw new Error("Login failed");
-      })
-      .then((data) => {
-        setCurrentUser(data);
-        setIsLoggedIn(true);
+      .then(() => {
+        console.log("Signup successful!");
         closeModal();
-        navigate("/profile");
+        openModal("login"); // Open login after signup
       })
       .catch((err) => {
-        console.error(err);
-        toast.error("Registration/Login failed.");
+        console.error("Signup failed", err);
+        toast.error("Signup failed.");
       });
   };
 
@@ -143,15 +122,16 @@ function App() {
       .then((res) => {
         if (res.token) {
           localStorage.setItem("jwt", res.token);
-          return getUserData(res.token);
+
+          return getUserData(res.token)
+            .then((data) => {
+              setCurrentUser(data);
+              setIsLoggedIn(true);
+              navigate("/profile"); // Navigate only after fetching user
+              closeModal();
+            });
         }
         throw new Error("Login failed");
-      })
-      .then((data) => {
-        setCurrentUser(data);
-        setIsLoggedIn(true);
-        navigate("/profile");
-        closeModal();
       })
       .catch((err) => {
         console.error(err);
@@ -206,7 +186,7 @@ function App() {
     <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-          <Toaster position="top-center" reverseOrder={false} /> {/* Toast Popups */}
+          <Toaster position="top-center" reverseOrder={false} />
           <div className="page__content">
             <Header
               weatherData={weatherData}
