@@ -2,11 +2,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch"; // ✅ ADD TOGGLESWITCH!
 import "./Header.css";
-import Logo from "../../images/logo.svg"; // <-- replace with your correct logo
-import Avatar from "../../images/Avatar.png"; // <-- replace with your avatar if needed
+import Logo from "../../images/logo.svg"; // Replace with your logo
+import Avatar from "../../images/Avatar.png"; // Replace with your avatar
 
-function Header({ handleAddClick, onLoginClick, onSignUpClick, onLogout, isLoggedIn }) {
+function Header({ handleAddClick, onLoginClick, onSignUpClick, onLogout, isLoggedIn, weatherData }) {
   const currentUser = useContext(CurrentUserContext);
 
   const currentDate = new Date().toLocaleString("en-US", {
@@ -21,33 +22,42 @@ function Header({ handleAddClick, onLoginClick, onSignUpClick, onLogout, isLogge
         <img src={Logo} alt="Logo" className="header__logo" />
       </Link>
 
-      {/* Date display */}
+      {/* Date */}
       <p className="header__date">{currentDate}</p>
 
-      {/* ToggleSwitch if you have it */}
-      {/* <ToggleSwitch /> */}
+      {/* Weather (optional) */}
+      {weatherData?.city && (
+        <p className="header__location">{weatherData.city}</p>
+      )}
+
+      {/* Toggle Switch for Fahrenheit / Celsius */}
+      <ToggleSwitch />
 
       {/* Right-side user area */}
       <div className="header__user-area">
         {isLoggedIn ? (
           <>
-            {/* Link to /profile with avatar and name */}
+            {/* Link to Profile */}
             <Link to="/profile" className="header__profile-link">
               <p className="header__profile-name">{currentUser?.name || "User"}</p>
-              <img src={currentUser?.avatar || Avatar} alt="User Avatar" className="header__avatar" />
+              <img
+                src={currentUser?.avatar || Avatar}
+                alt="User Avatar"
+                className="header__avatar"
+              />
             </Link>
-            {/* Button to Add Clothes */}
+            {/* Add Clothes Button */}
             <button className="header__add-button" onClick={handleAddClick}>
               + Add Clothes
             </button>
-            {/* Log Out */}
+            {/* Log Out Button */}
             <button className="header__logout" onClick={onLogout}>
               Log out
             </button>
           </>
         ) : (
           <>
-            {/* If not logged in, show Sign Up / Login */}
+            {/* Auth buttons if not logged in */}
             <button className="header__auth-button" onClick={onSignUpClick}>
               Sign Up
             </button>
