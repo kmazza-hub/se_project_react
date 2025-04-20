@@ -1,9 +1,12 @@
 // src/components/ItemModal/ItemModal.jsx
-import React from "react";
+import React, { useContext } from "react";
 import closeIcon from "../../images/close-icon2.png";
 import "./ItemModal.css";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"; // ✅ Import context
 
 function ItemModal({ isOpen, item, onClose, onDelete }) {
+  const currentUser = useContext(CurrentUserContext); // ✅ Get user info
+
   if (!item) return null;
 
   return (
@@ -22,13 +25,17 @@ function ItemModal({ isOpen, item, onClose, onDelete }) {
             <p className="modal__item-name">{item.name}</p>
             <p className="modal__item-weather">Weather: {item.weather}</p>
           </div>
-          <button
-            type="button"
-            className="modal__delete-button"
-            onClick={onDelete}
-          >
-            Delete item
-          </button>
+
+          {/* ✅ Only show delete button if logged in */}
+          {currentUser && (
+            <button
+              type="button"
+              className="modal__delete-button"
+              onClick={onDelete}
+            >
+              Delete item
+            </button>
+          )}
         </div>
       </div>
     </div>

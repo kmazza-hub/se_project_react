@@ -111,8 +111,8 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
-        navigate("/profile");
         closeModal();
+        navigate("/profile");
       })
       .catch((err) => {
         console.error(err);
@@ -130,6 +130,7 @@ function App() {
 
   const handleChangeProfile = (updatedData) => {
     editUserProfile(updatedData)
+      .then(getUserData) // ✅ important: fetch real new user data after update
       .then((updatedUser) => {
         setCurrentUser(updatedUser);
         closeModal();
@@ -149,15 +150,18 @@ function App() {
       })
       .catch(console.error);
 
+    // ✅ always get items right away
+    getItems()
+      .then(setClothingItems)
+      .catch(console.error);
+
     const token = localStorage.getItem("jwt");
     if (token) {
       getUserData()
         .then((data) => {
           setCurrentUser(data);
           setIsLoggedIn(true);
-          return getItems();
         })
-        .then(setClothingItems)
         .catch(console.error);
     }
   }, []);
@@ -184,7 +188,17 @@ function App() {
               />
               <Route
                 path="/profile"
-                element={<ProtectedRoute isLoggedIn={isLoggedIn}><Profile clothingItems={clothingItems} onCardClick={handleCardClick} handleAddClick={() => openModal("add-garment")} onEditProfileClick={() => openModal("edit-profile")} onDelete={handleDeleteRequest} /></ProtectedRoute>}
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile
+                      clothingItems={clothingItems}
+                      onCardClick={handleCardClick}
+                      handleAddClick={() => openModal("add-garment")}
+                      onEditProfileClick={() => openModal("edit-profile")}
+                      onDelete={handleDeleteRequest}
+                    />
+                  </ProtectedRoute>
+                }
               />
             </Routes>
 
@@ -192,10 +206,8 @@ function App() {
             <ItemModal isOpen={activeModal === "preview"} item={selectedCard} onClose={closeModal} onDelete={() => handleDeleteRequest(selectedCard)} />
             <DeleteConfirmationModal isOpen={activeModal === "delete-confirmation"} onClose={closeModal} onConfirm={handleDeleteItem} item={itemToDelete} />
             <ChangeProfileModal isOpen={activeModal === "edit-profile"} onClose={closeModal} onChangeProfile={handleChangeProfile} />
-
             {activeModal === "login" && <LoginModal isOpen={true} onLogin={handleLogin} onClose={closeModal} onRegister={() => openModal("signup")} />}
             {activeModal === "signup" && <SignUpModal onSignUp={handleRegister} onClose={closeModal} onLogin={() => openModal("login")} />}
-
             <Footer />
           </div>
         </div>
