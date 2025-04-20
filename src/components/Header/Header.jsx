@@ -2,56 +2,59 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import "./Header.css";
-import Avatar from "../../images/Avatar.png"; // ✅ Correct import of Avatar.png!
+import Logo from "../../images/logo.svg"; // <-- replace with your correct logo
+import Avatar from "../../images/Avatar.png"; // <-- replace with your avatar if needed
 
 function Header({ handleAddClick, onLoginClick, onSignUpClick, onLogout, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
 
-  // Get today's date in "Month Day" format (e.g., April 19)
-  const today = new Date();
-  const options = { month: "long", day: "numeric" };
-  const formattedDate = today.toLocaleDateString("en-US", options);
+  const currentDate = new Date().toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <header className="header">
-      <div className="header__left">
-        <Link to="/" className="header__logo">
-          {/* You can replace this text with a real logo image if you want */}
-          <div className="header__logo-text">wtwr</div>
-        </Link>
-        <p className="header__date">{formattedDate}, New York</p>
-      </div>
+      {/* Logo always links to homepage */}
+      <Link to="/" className="header__logo-link">
+        <img src={Logo} alt="Logo" className="header__logo" />
+      </Link>
 
-      <div className="header__right">
-        <ToggleSwitch />
+      {/* Date display */}
+      <p className="header__date">{currentDate}</p>
+
+      {/* ToggleSwitch if you have it */}
+      {/* <ToggleSwitch /> */}
+
+      {/* Right-side user area */}
+      <div className="header__user-area">
         {isLoggedIn ? (
           <>
-            <button className="header__add-clothes-btn" onClick={handleAddClick}>
-              + Add clothes
+            {/* Link to /profile with avatar and name */}
+            <Link to="/profile" className="header__profile-link">
+              <p className="header__profile-name">{currentUser?.name || "User"}</p>
+              <img src={currentUser?.avatar || Avatar} alt="User Avatar" className="header__avatar" />
+            </Link>
+            {/* Button to Add Clothes */}
+            <button className="header__add-button" onClick={handleAddClick}>
+              + Add Clothes
             </button>
-            <div className="header__user-info">
-              <p className="header__user-name">{currentUser?.name || "Username"}</p>
-              <img
-                src={currentUser?.avatar || Avatar}
-                alt="User Avatar"
-                className="header__user-avatar"
-              />
-              <button className="header__logout-btn" onClick={onLogout}>
-                Log Out
-              </button>
-            </div>
+            {/* Log Out */}
+            <button className="header__logout" onClick={onLogout}>
+              Log out
+            </button>
           </>
         ) : (
-          <div className="header__auth-buttons">
-            <button className="header__auth-button" onClick={onLoginClick}>
-              Log In
-            </button>
+          <>
+            {/* If not logged in, show Sign Up / Login */}
             <button className="header__auth-button" onClick={onSignUpClick}>
               Sign Up
             </button>
-          </div>
+            <button className="header__auth-button" onClick={onLoginClick}>
+              Log In
+            </button>
+          </>
         )}
       </div>
     </header>
