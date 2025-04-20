@@ -1,38 +1,30 @@
-import React, { useContext } from "react";
+// src/components/Header/Header.jsx
+import React from "react";
 import { Link } from "react-router-dom";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import "./Header.css";
+import Logo from "../../images/Wtwr-logo.svg";
 
-function Header({ weatherData, handleAddClick, onLoginClick, onSignUpClick, onLogout, isLoggedIn }) {
-  const currentUser = useContext(CurrentUserContext);
+function Header({ handleAddClick, onLoginClick, onSignUpClick, onLogout, isLoggedIn }) {
+  const currentDate = new Date().toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <header className="header">
       <div className="header__left">
-        <Link to="/" className="header__logo">
-          wtwr
+        <Link to="/">
+          <img src={Logo} alt="WTWR Logo" className="header__logo" />
         </Link>
-        <p className="header__location">
-          {weatherData?.temp?.F ? `${weatherData.temp.F}°F | ${weatherData.city}` : "Loading..."}
-        </p>
+        <p className="header__date-location">{currentDate}, New York</p>
       </div>
 
       <div className="header__right">
-        <ToggleSwitch />
         {isLoggedIn ? (
           <>
             <button className="header__add-button" onClick={handleAddClick}>
-              + Add Clothes
+              + Add clothes
             </button>
-            <Link to="/profile" className="header__profile-link">
-              <p className="header__profile-name">{currentUser?.name}</p>
-              <img
-                src={currentUser?.avatar || "https://via.placeholder.com/40"}
-                alt="Profile"
-                className="header__avatar"
-              />
-            </Link>
             <button className="header__logout-button" onClick={onLogout}>
               Log Out
             </button>
