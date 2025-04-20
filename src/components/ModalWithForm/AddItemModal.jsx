@@ -1,11 +1,14 @@
 // src/components/AddItemModal/AddItemModal.jsx
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import "./AddItemModal.css";
 
-function AddItemModal({ isOpen, onCloseModal, onAddItem }) {
+function AddItemModal({ isOpen, onAddItem, onCloseModal }) {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [weather, setWeather] = useState("");
+
+  const isFormValid = name && imageUrl && weather;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,10 +21,9 @@ function AddItemModal({ isOpen, onCloseModal, onAddItem }) {
       isOpen={isOpen}
       onClose={onCloseModal}
       onSubmit={handleSubmit}
-      buttonText="Add garment"
     >
-      <label className="modal__label">
-        Name
+      <fieldset className="modal__form">
+        <label className="modal__label">Name*</label>
         <input
           type="text"
           className="modal__input"
@@ -30,9 +32,8 @@ function AddItemModal({ isOpen, onCloseModal, onAddItem }) {
           onChange={(e) => setName(e.target.value)}
           required
         />
-      </label>
-      <label className="modal__label">
-        Image URL
+
+        <label className="modal__label">Image URL*</label>
         <input
           type="url"
           className="modal__input"
@@ -41,40 +42,47 @@ function AddItemModal({ isOpen, onCloseModal, onAddItem }) {
           onChange={(e) => setImageUrl(e.target.value)}
           required
         />
-      </label>
-      <label className="modal__label">
-        Select the weather type:
-        <div className="modal__radio-group">
-          <label>
-            <input
-              type="radio"
-              name="weather"
-              value="hot"
-              onChange={(e) => setWeather(e.target.value)}
-              required
-            />
-            Hot
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="weather"
-              value="warm"
-              onChange={(e) => setWeather(e.target.value)}
-            />
-            Warm
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="weather"
-              value="cold"
-              onChange={(e) => setWeather(e.target.value)}
-            />
-            Cold
-          </label>
-        </div>
-      </label>
+
+        <p className="modal__weather-label">Select the weather type:</p>
+        <label className="modal__radio">
+          <input
+            type="radio"
+            name="weather"
+            value="hot"
+            checked={weather === "hot"}
+            onChange={(e) => setWeather(e.target.value)}
+          />
+          Hot
+        </label>
+        <label className="modal__radio">
+          <input
+            type="radio"
+            name="weather"
+            value="warm"
+            checked={weather === "warm"}
+            onChange={(e) => setWeather(e.target.value)}
+          />
+          Warm
+        </label>
+        <label className="modal__radio">
+          <input
+            type="radio"
+            name="weather"
+            value="cold"
+            checked={weather === "cold"}
+            onChange={(e) => setWeather(e.target.value)}
+          />
+          Cold
+        </label>
+      </fieldset>
+
+      <button
+        type="submit"
+        className={`modal__submit-garment ${!isFormValid ? "modal__submit-garment_disabled" : ""}`}
+        disabled={!isFormValid}
+      >
+        Add garment
+      </button>
     </ModalWithForm>
   );
 }

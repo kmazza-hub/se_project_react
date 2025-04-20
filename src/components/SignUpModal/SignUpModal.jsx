@@ -59,14 +59,12 @@ function SignUpModal({ onSignUp, onClose, onLogin }) {
         />
       </fieldset>
 
-      <button type="submit" className="modal__submit-button">Next</button>
-      <div className="modal__alt-container">
-        <p className="modal__alt-text">
-          or{" "}
-          <button type="button" className="modal__alt-button" onClick={onLogin}>
-            Log in
-          </button>
-        </p>
+      {/* Move both buttons into ONE div here */}
+      <div className="modal__action-container">
+        <button type="submit" className="modal__submit-button">Next</button>
+        <button type="button" className="modal__alt-button" onClick={onLogin}>
+          or Log In
+        </button>
       </div>
     </ModalWithForm>
   );

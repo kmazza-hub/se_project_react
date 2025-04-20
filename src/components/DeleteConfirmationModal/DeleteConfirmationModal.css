@@ -1,10 +1,82 @@
+/* src/components/DeleteConfirmationModal/DeleteConfirmationModal.css */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+}
+
+.modal_opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__content-confirmation {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal__title-confirmation {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modal__buttons-confirmation {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal__button-confirmation {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.modal__button-confirmation_confirm {
+  background-color: red;
+  color: white;
+}
+
+.modal__button-confirmation_confirm:hover {
+  background-color: darkred;
+}
+
+.modal__button-confirmation_cancel {
+  background-color: lightgray;
+  color: black;
+}
+
+.modal__button-confirmation_cancel:hover {
+  background-color: gray;
+  color: white;
+}
+
+/* src/components/DeleteConfirmationModal/DeleteConfirmationModal.css */
 .modal_delete-confirmation {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: rgba(0, 0, 0, 0.5); /* Background overlay */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,11 +86,10 @@
 .modal__content-delete {
   background: #ffffff;
   border-radius: 20px;
-  padding: 28px;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 40px 60px;
+  width: 500px;
+  max-width: 90%;
+  text-align: center;
   position: relative;
 }
 
@@ -39,28 +110,27 @@
 .modal__title-delete {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .modal__text-delete {
   font-size: 16px;
   font-weight: 400;
-  text-align: center;
   margin-bottom: 32px;
 }
 
 .modal__buttons-delete {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .modal__delete-button-confirm {
-  padding: 12px 24px;
   font-size: 16px;
   font-weight: 700;
-  border: 1px solid #000;
-  border-radius: 12px;
   background: none;
+  border: none;
+  color: #FF4D00; /* 🔥 same RED as the other Delete item buttons */
   cursor: pointer;
   transition: opacity 0.3s ease;
 }
@@ -70,12 +140,11 @@
 }
 
 .modal__cancel-button {
-  padding: 12px 24px;
   font-size: 16px;
   font-weight: 700;
-  border: 1px solid #000;
-  border-radius: 12px;
   background: none;
+  border: none;
+  color: #000;
   cursor: pointer;
   transition: opacity 0.3s ease;
 }

@@ -4,22 +4,20 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { signin, signup, getUserData, getItems, addItem, deleteItem, addCardLikes, removeCardLikes, editUserProfile } from "../../utils/api";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
-import { getWeather, filterWeatherData } from "../../utils/weatherApi";
-import { coordinates, APIkey } from "../../utils/constants";
-
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
-import ProtectedRoute from "./ProtectedRoute"; // ✅ Correct path
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import ProtectedRoute from "./ProtectedRoute";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import LoginModal from "../LoginModal/LoginModal";
 import AddItemModal from "../ModalWithForm/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import ChangeProfileModal from "../Profile/ChangeProfileModal";
+import { getWeather, filterWeatherData } from "../../utils/weatherApi";
+import { coordinates, APIkey } from "../../utils/constants";
 import { Toaster, toast } from "react-hot-toast";
-
 import "./App.css";
 
 function App() {
@@ -35,7 +33,6 @@ function App() {
   const navigate = useNavigate();
 
   const openModal = (modalName) => setActiveModal(modalName);
-
   const closeModal = () => {
     setActiveModal("");
     setSelectedCard(null);
@@ -51,7 +48,7 @@ function App() {
     openModal("preview");
   };
 
-  const handleDeleteConfirmation = (item) => {
+  const handleDeleteRequest = (item) => {
     setItemToDelete(item);
     openModal("delete-confirmation");
   };
@@ -179,6 +176,7 @@ function App() {
               onLogout={handleLogout}
               isLoggedIn={isLoggedIn}
             />
+
             <Routes>
               <Route
                 path="/"
@@ -186,26 +184,13 @@ function App() {
               />
               <Route
                 path="/profile"
-                element={
-                  <ProtectedRoute isLoggedIn={isLoggedIn}>
-                    <Profile clothingItems={clothingItems} onCardClick={handleCardClick} handleAddClick={() => openModal("add-garment")} onEditProfileClick={() => openModal("edit-profile")} onDelete={handleDeleteConfirmation} />
-                  </ProtectedRoute>
-                }
+                element={<ProtectedRoute isLoggedIn={isLoggedIn}><Profile clothingItems={clothingItems} onCardClick={handleCardClick} handleAddClick={() => openModal("add-garment")} onEditProfileClick={() => openModal("edit-profile")} onDelete={handleDeleteRequest} /></ProtectedRoute>}
               />
             </Routes>
 
             <AddItemModal isOpen={activeModal === "add-garment"} onAddItem={handleAddItemSubmit} onCloseModal={closeModal} />
-
-            {/* ✅ Corrected: now using onDeleteRequest */}
-            <ItemModal
-              isOpen={activeModal === "preview"}
-              item={selectedCard}
-              onClose={closeModal}
-              onDeleteRequest={handleDeleteConfirmation}
-            />
-
+            <ItemModal isOpen={activeModal === "preview"} item={selectedCard} onClose={closeModal} onDelete={() => handleDeleteRequest(selectedCard)} />
             <DeleteConfirmationModal isOpen={activeModal === "delete-confirmation"} onClose={closeModal} onConfirm={handleDeleteItem} item={itemToDelete} />
-
             <ChangeProfileModal isOpen={activeModal === "edit-profile"} onClose={closeModal} onChangeProfile={handleChangeProfile} />
 
             {activeModal === "login" && <LoginModal isOpen={true} onLogin={handleLogin} onClose={closeModal} onRegister={() => openModal("signup")} />}

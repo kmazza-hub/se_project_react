@@ -1,4 +1,5 @@
 /* src/components/ItemModal/ItemModal.css */
+
 .modal {
   position: fixed;
   top: 0;
@@ -20,9 +21,7 @@
   opacity: 1;
 }
 
-.modal__content,
-.modal__content-preview,
-.modal__content-items {
+.modal__content-preview {
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -42,36 +41,39 @@
   cursor: pointer;
 }
 
-.modal__close-icon,
-.modal__close-icon-garment {
+.modal__close-icon {
   width: 24px;
   height: 24px;
 }
 
-.modal__image,
 .modal__preview-image {
   width: 100%;
   height: 350px;
   object-fit: cover;
 }
 
-.modal__body {
+.modal__description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 15px;
+}
+
+.modal__text-info {
   display: flex;
   flex-direction: column;
 }
 
-.modal__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal__title,
 .modal__item-name {
   font-weight: bold;
   font-size: 18px;
   margin: 0;
+}
+
+.modal__item-weather {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 5px 0 0 0;
 }
 
 .modal__delete-button {
@@ -80,11 +82,9 @@
   color: red;
   font-size: 16px;
   cursor: pointer;
-  white-space: nowrap;
+  align-self: flex-start;
 }
 
-.modal__weather {
-  font-size: 16px;
-  color: black;
-  margin-top: 10px;
+.modal__delete-button:hover {
+  text-decoration: underline;
 }

@@ -1,9 +1,7 @@
-/* src/components/SignUpModal/SignUpModal.css */
-
 .modal__form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 20px;
 }
 
@@ -26,33 +24,39 @@
   color: #b6b6b6;
 }
 
+.modal__action-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 .modal__submit-button {
-  width: 124px;
-  height: 36px;
-  background: black;
-  color: white;
+  background: #f3f3f3;
   border: none;
-  border-radius: 4px;
+  padding: 8px 16px;
   font-size: 12px;
-  margin: 0 auto;
-  display: block;
+  font-weight: bold;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.modal__alt-container {
-  margin-top: 8px;
-  text-align: center;
-}
-
-.modal__alt-text {
-  font-size: 10px;
+.modal__submit-button:hover {
+  background-color: black;
+  color: white;
 }
 
 .modal__alt-button {
   background: none;
   border: none;
-  font-size: 10px;
-  text-decoration: underline;
+  font-size: 12px;
   color: black;
+  text-decoration: underline;
   cursor: pointer;
+  padding: 0;
+}
+
+.modal__alt-button:hover {
+  color: black;
 }

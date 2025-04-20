@@ -1,0 +1,60 @@
+/* src/components/AddItemModal/AddItemModal.css */
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modal__label {
+  font-family: "CabinetGrotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.modal__input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 8px 0;
+  font-family: "CabinetGrotesk", sans-serif;
+  font-size: 16px;
+}
+
+.modal__weather-label {
+  margin-top: 20px;
+  font-family: "CabinetGrotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.modal__radio {
+  font-family: "CabinetGrotesk", sans-serif;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.modal__submit-garment {
+  margin-top: 20px;
+  width: 124px;
+  height: 36px;
+  border-radius: 4px;
+  background-color: #000;
+  color: white;
+  font-family: "CabinetGrotesk", sans-serif;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.modal__submit-garment:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.modal__submit-garment_disabled {
+  background-color: #000;
+  opacity: 0.3;
+  cursor: not-allowed;
+}

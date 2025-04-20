@@ -1,3 +1,4 @@
+// src/components/LoginModal/LoginModal.jsx
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./LoginModal.css";
@@ -9,59 +10,47 @@ function LoginModal({ isOpen, onLogin, onClose, onRegister }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onLogin({ email, password });
-  };
+  }
 
   return (
     <ModalWithForm
       title="Log in"
       isOpen={isOpen}
-      onSubmit={handleSubmit}
       onClose={onClose}
-      onExtraAction={onRegister}
-      submitText={null}
-      extraActionText="Sign Up"
+      onSubmit={handleSubmit}
     >
-      <div className="modal__input-group">
-        <label htmlFor="email" className="modal__label">
-          Email
-        </label>
+      <fieldset className="modal__form">
+        <label className="modal__label">Email</label>
         <input
           type="email"
-          id="email"
-          name="email"
           className="modal__input"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </div>
-      <div className="modal__input-group">
-        <label htmlFor="password" className="modal__label">
-          Password
-        </label>
+
+        <label className="modal__label">Password</label>
         <input
           type="password"
-          id="password"
-          name="password"
           className="modal__input"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </div>
-      <div className="modal__buttons">
-        <button type="submit" className="modal__submit-login">
+      </fieldset>
+
+      <div className="modal__action-container">
+        <button type="submit" className="modal__submit-button">
           Log in
         </button>
-        <button
-          type="button"
-          onClick={onRegister}
-          className="modal__register-link"
-        >
-          Sign Up
-        </button>
+        <p className="modal__alt-text">
+          or{" "}
+          <button type="button" className="modal__alt-button" onClick={onRegister}>
+            Register
+          </button>
+        </p>
       </div>
     </ModalWithForm>
   );
