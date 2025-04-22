@@ -1,50 +1,50 @@
-/* src/components/LoginModal/LoginModal.css */
-
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #0000004d;
+  background-color: rgba(0, 0, 0, 0.3); /* transparent black overlay */
   display: flex;
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 .modal_opened {
   visibility: visible;
-  opacity: 1;
 }
 
 .modal__content {
-  background-color: #fff;
-  position: relative;
+  background-color: #ffffff;
   padding: 28px;
-  max-width: 498px;
-  width: 100%;
-  border-radius: 20px;
+  width: 496px;
+  border-radius: 20px; /* ➔ Rounded corners */
   box-sizing: border-box;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3); /* ➔ 30% opacity black border */
 }
 
 .modal__close-btn {
   position: absolute;
-  top: 28px;
-  right: 28px;
-  cursor: pointer;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .modal__form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 20px;
 }
 
 .modal__input-group {
@@ -52,60 +52,55 @@
 }
 
 .modal__label {
-  font-family: "CabinetGrotesk", sans-serif;
-  font-weight: 700;
   font-size: 16px;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
 .modal__input {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 20px;
   border: none;
   border-bottom: 1px solid black;
-  width: 100%;
-  height: 30px;
-  font-family: "CabinetGrotesk", sans-serif;
+  border-radius: 0; /* <-- THIS removes the wings! */
   font-size: 16px;
-  margin-bottom: 20px;
+  outline: none;
   background-color: transparent;
 }
 
-.modal__action-container {
+
+.modal__buttons {
   display: flex;
   align-items: center;
+  gap: 20px;
   margin-top: 20px;
 }
 
-.modal__submit-button {
-  width: 124px;
-  height: 36px;
-  border-radius: 4px;
-  border: none;
-  background-color: #f3f3f3;
-  color: black;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 16px;
-  margin-right: 12px;
-}
-
-.modal__submit-button:hover {
+.modal__submit-login {
   background-color: black;
   color: white;
-}
-
-.modal__alt-text {
-  font-size: 16px;
-}
-
-.modal__alt-button {
-  background: none;
   border: none;
-  color: black;
-  text-decoration: underline;
+  padding: 10px 20px;
   font-weight: 700;
+  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.modal__alt-button:hover {
-  color: grey;
+.modal__submit-login:hover {
+  opacity: 0.8;
+}
+
+.modal__register-link {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  color: gray;
+  cursor: pointer;
+}
+
+.modal__register-link:hover {
+  text-decoration: underline;
 }

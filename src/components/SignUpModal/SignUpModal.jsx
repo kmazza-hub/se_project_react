@@ -1,72 +1,93 @@
 // src/components/SignUpModal/SignUpModal.jsx
 import React, { useState } from "react";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./SignUpModal.css";
+import closeIcon from "../../images/close-icon2.png";
 
-function SignUpModal({ onSignUp, onClose, onLogin }) {
+function SignUpModal({ isOpen, onClose, onSignUp, onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSignUp({ email, password, name, avatar: avatarUrl });
+    onSignUp({ email, password, name, avatar });
   };
 
   return (
-    <ModalWithForm
-      title="Sign up"
-      isOpen={true}
-      onClose={onClose}
-      onSubmit={handleSubmit}
-    >
-      <fieldset className="modal__form">
-        <label className="modal__label">Email*</label>
-        <input
-          type="email"
-          className="modal__input"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label className="modal__label">Password*</label>
-        <input
-          type="password"
-          className="modal__input"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <label className="modal__label">Name*</label>
-        <input
-          type="text"
-          className="modal__input"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <label className="modal__label">Avatar URL</label>
-        <input
-          type="url"
-          className="modal__input"
-          placeholder="Avatar URL (optional)"
-          value={avatarUrl}
-          onChange={(e) => setAvatarUrl(e.target.value)}
-        />
-      </fieldset>
-
-      {/* Move both buttons into ONE div here */}
-      <div className="modal__action-container">
-        <button type="submit" className="modal__submit-button">Next</button>
-        <button type="button" className="modal__alt-button" onClick={onLogin}>
-          or Log In
+    <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
+      <div className="modal__content">
+        <button className="modal__close-btn" onClick={onClose}>
+          <img src={closeIcon} alt="Close" />
         </button>
+
+        <h2 className="modal__title">Sign up</h2>
+
+        <form className="modal__form" onSubmit={handleSubmit}>
+          <div className="modal__input-group">
+            <label className="modal__label" htmlFor="signup-email">Email*</label>
+            <input
+              id="signup-email"
+              type="email"
+              className="modal__input"
+              placeholder="youremail@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="modal__input-group">
+            <label className="modal__label" htmlFor="signup-password">Password*</label>
+            <input
+              id="signup-password"
+              type="password"
+              className="modal__input"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="modal__input-group">
+            <label className="modal__label" htmlFor="signup-name">Name*</label>
+            <input
+              id="signup-name"
+              type="text"
+              className="modal__input"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="modal__input-group">
+            <label className="modal__label" htmlFor="signup-avatar">Avatar URL*</label>
+            <input
+              id="signup-avatar"
+              type="url"
+              className="modal__input"
+              placeholder="https://example.com/avatar.png"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="modal__buttons">
+            <button type="submit" className="modal__submit-login">
+              Next
+            </button>
+
+            <button type="button" className="modal__register-link" onClick={onLogin}>
+              or Log in
+            </button>
+          </div>
+        </form>
       </div>
-    </ModalWithForm>
+    </div>
   );
 }
 

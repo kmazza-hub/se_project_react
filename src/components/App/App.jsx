@@ -1,7 +1,17 @@
 // src/components/App/App.jsx
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { signin, signup, getUserData, getItems, addItem, deleteItem, addCardLikes, removeCardLikes, editUserProfile } from "../../utils/api";
+import {
+  signin,
+  signup,
+  getUserData,
+  getItems,
+  addItem,
+  deleteItem,
+  addCardLikes,
+  removeCardLikes,
+  editUserProfile,
+} from "../../utils/api";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import Main from "../Main/Main";
@@ -91,7 +101,9 @@ function App() {
 
   const handleRegister = (userData) => {
     signup(userData)
-      .then(() => signin({ email: userData.email, password: userData.password }))
+      .then((res) =>
+        signin({ email: userData.email, password: userData.password })
+      )
       .then(() => getUserData())
       .then((user) => {
         setCurrentUser(user);
@@ -100,7 +112,7 @@ function App() {
         navigate("/profile");
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Registration/Login failed:", err);
         toast.error("Registration/Login failed.");
       });
   };
@@ -115,7 +127,7 @@ function App() {
         navigate("/profile");
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Login failed:", err);
         toast.error("Login failed. Please check your credentials.");
       });
   };
@@ -130,14 +142,14 @@ function App() {
 
   const handleChangeProfile = (updatedData) => {
     editUserProfile(updatedData)
-      .then(getUserData) // ✅ important: fetch real new user data after update
-      .then((updatedUser) => {
-        setCurrentUser(updatedUser);
+      .then(getUserData)
+      .then((user) => {
+        setCurrentUser(user);
         closeModal();
         toast.success("Profile updated successfully!");
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Failed to update profile:", err);
         toast.error("Failed to update profile.");
       });
   };
@@ -150,31 +162,37 @@ function App() {
       })
       .catch(console.error);
 
-    // ✅ always get items right away
-    getItems()
-      .then(setClothingItems)
-      .catch(console.error);
-
     const token = localStorage.getItem("jwt");
     if (token) {
       getUserData()
-        .then((data) => {
-          setCurrentUser(data);
+        .then((user) => {
+          setCurrentUser(user);
           setIsLoggedIn(true);
         })
-        .catch(console.error);
+        .catch((err) => {
+          console.error("Invalid token:", err);
+          localStorage.removeItem("jwt");
+          setCurrentUser(null);
+          setIsLoggedIn(false);
+        });
     }
+
+    getItems().then(setClothingItems).catch(console.error);
   }, []);
 
   return (
-    <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
+    <CurrentTemperatureUnitContext.Provider
+      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+    >
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
           <Toaster position="top-center" reverseOrder={false} />
           <div className="page__content">
             <Header
               weatherData={weatherData}
-              handleAddClick={() => openModal(isLoggedIn ? "add-garment" : "login")}
+              handleAddClick={() =>
+                openModal(isLoggedIn ? "add-garment" : "login")
+              }
               onLoginClick={() => openModal("login")}
               onSignUpClick={() => openModal("signup")}
               onLogout={handleLogout}
@@ -184,7 +202,14 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Main weatherData={weatherData} clothingItems={clothingItems} handleCardClick={handleCardClick} onCardLike={handleCardLikes} />}
+                element={
+                  <Main
+                    weatherData={weatherData}
+                    clothingItems={clothingItems}
+                    handleCardClick={handleCardClick}
+                    onCardLike={handleCardLikes}
+                  />
+                }
               />
               <Route
                 path="/profile"
@@ -202,12 +227,47 @@ function App() {
               />
             </Routes>
 
-            <AddItemModal isOpen={activeModal === "add-garment"} onAddItem={handleAddItemSubmit} onCloseModal={closeModal} />
-            <ItemModal isOpen={activeModal === "preview"} item={selectedCard} onClose={closeModal} onDelete={() => handleDeleteRequest(selectedCard)} />
-            <DeleteConfirmationModal isOpen={activeModal === "delete-confirmation"} onClose={closeModal} onConfirm={handleDeleteItem} item={itemToDelete} />
-            <ChangeProfileModal isOpen={activeModal === "edit-profile"} onClose={closeModal} onChangeProfile={handleChangeProfile} />
-            {activeModal === "login" && <LoginModal isOpen={true} onLogin={handleLogin} onClose={closeModal} onRegister={() => openModal("signup")} />}
-            {activeModal === "signup" && <SignUpModal onSignUp={handleRegister} onClose={closeModal} onLogin={() => openModal("login")} />}
+            <AddItemModal
+              isOpen={activeModal === "add-garment"}
+              onAddItem={handleAddItemSubmit}
+              onCloseModal={closeModal}
+            />
+            <ItemModal
+              isOpen={activeModal === "preview"}
+              item={selectedCard}
+              onClose={closeModal}
+              onDelete={() => handleDeleteRequest(selectedCard)}
+            />
+            <DeleteConfirmationModal
+              isOpen={activeModal === "delete-confirmation"}
+              onClose={closeModal}
+              onConfirm={handleDeleteItem}
+              item={itemToDelete}
+            />
+            <ChangeProfileModal
+              isOpen={activeModal === "edit-profile"}
+              onClose={closeModal}
+              onChangeProfile={handleChangeProfile}
+            />
+
+            {activeModal === "login" && (
+              <LoginModal
+                isOpen={true}
+                onLogin={handleLogin}
+                onClose={closeModal}
+                onRegister={() => openModal("signup")}
+              />
+            )}
+
+            {activeModal === "signup" && (
+              <SignUpModal
+                isOpen={true}
+                onSignUp={handleRegister}
+                onClose={closeModal}
+                onLogin={() => openModal("login")}
+              />
+            )}
+
             <Footer />
           </div>
         </div>

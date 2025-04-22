@@ -11,12 +11,17 @@ function WeatherCard({ weatherData }) {
     return null; // Don't render until weatherData is ready
   }
 
-  const { condition, isDay, temp } = weatherData;
+  // ✅ Normalize condition to lowercase
+  const normalizedCondition = weatherData.condition?.toLowerCase();
+  const isDay = weatherData.isDay;
+  const temp = weatherData.temp;
 
+  // ✅ Match normalized condition
   const weatherOption = weatherOptions.find(
-    (option) => option.condition === condition && option.day === isDay
+    (option) => option.condition === normalizedCondition && option.day === isDay
   );
 
+  // ✅ If not found, fallback to default day/night
   const imageUrl = weatherOption
     ? weatherOption.url
     : isDay
@@ -34,7 +39,7 @@ function WeatherCard({ weatherData }) {
           </p>
           <img
             src={imageUrl}
-            alt={`Weather: ${condition}`}
+            alt={`Weather: ${normalizedCondition}`}
             className="weather-card__image"
           />
         </>
