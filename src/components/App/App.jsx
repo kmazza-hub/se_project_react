@@ -39,7 +39,6 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const navigate = useNavigate();
 
   const openModal = (modalName) => setActiveModal(modalName);
@@ -101,9 +100,7 @@ function App() {
 
   const handleRegister = (userData) => {
     signup(userData)
-      .then((res) =>
-        signin({ email: userData.email, password: userData.password })
-      )
+      .then(() => signin({ email: userData.email, password: userData.password }))
       .then(() => getUserData())
       .then((user) => {
         setCurrentUser(user);
@@ -181,24 +178,19 @@ function App() {
   }, []);
 
   return (
-    <CurrentTemperatureUnitContext.Provider
-      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-    >
+    <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
           <Toaster position="top-center" reverseOrder={false} />
           <div className="page__content">
             <Header
               weatherData={weatherData}
-              handleAddClick={() =>
-                openModal(isLoggedIn ? "add-garment" : "login")
-              }
+              handleAddClick={() => openModal(isLoggedIn ? "add-garment" : "login")}
               onLoginClick={() => openModal("login")}
               onSignUpClick={() => openModal("signup")}
               onLogout={handleLogout}
               isLoggedIn={isLoggedIn}
             />
-
             <Routes>
               <Route
                 path="/"
@@ -221,53 +213,18 @@ function App() {
                       handleAddClick={() => openModal("add-garment")}
                       onEditProfileClick={() => openModal("edit-profile")}
                       onDelete={handleDeleteRequest}
+                      onCardLike={handleCardLikes}
                     />
                   </ProtectedRoute>
                 }
               />
             </Routes>
-
-            <AddItemModal
-              isOpen={activeModal === "add-garment"}
-              onAddItem={handleAddItemSubmit}
-              onCloseModal={closeModal}
-            />
-            <ItemModal
-              isOpen={activeModal === "preview"}
-              item={selectedCard}
-              onClose={closeModal}
-              onDelete={() => handleDeleteRequest(selectedCard)}
-            />
-            <DeleteConfirmationModal
-              isOpen={activeModal === "delete-confirmation"}
-              onClose={closeModal}
-              onConfirm={handleDeleteItem}
-              item={itemToDelete}
-            />
-            <ChangeProfileModal
-              isOpen={activeModal === "edit-profile"}
-              onClose={closeModal}
-              onChangeProfile={handleChangeProfile}
-            />
-
-            {activeModal === "login" && (
-              <LoginModal
-                isOpen={true}
-                onLogin={handleLogin}
-                onClose={closeModal}
-                onRegister={() => openModal("signup")}
-              />
-            )}
-
-            {activeModal === "signup" && (
-              <SignUpModal
-                isOpen={true}
-                onSignUp={handleRegister}
-                onClose={closeModal}
-                onLogin={() => openModal("login")}
-              />
-            )}
-
+            <AddItemModal isOpen={activeModal === "add-garment"} onAddItem={handleAddItemSubmit} onCloseModal={closeModal} />
+            <ItemModal isOpen={activeModal === "preview"} item={selectedCard} onClose={closeModal} onDelete={() => handleDeleteRequest(selectedCard)} />
+            <DeleteConfirmationModal isOpen={activeModal === "delete-confirmation"} onClose={closeModal} onConfirm={handleDeleteItem} item={itemToDelete} />
+            <ChangeProfileModal isOpen={activeModal === "edit-profile"} onClose={closeModal} onChangeProfile={handleChangeProfile} />
+            {activeModal === "login" && <LoginModal isOpen={true} onLogin={handleLogin} onClose={closeModal} onRegister={() => openModal("signup")} />}
+            {activeModal === "signup" && <SignUpModal isOpen={true} onSignUp={handleRegister} onClose={closeModal} onLogin={() => openModal("login")} />}
             <Footer />
           </div>
         </div>

@@ -5,7 +5,14 @@ import SideBar from "./SideBar";
 import ClothesSection from "./ClothesSection";
 import "./Profile.css";
 
-function Profile({ clothingItems, onCardClick, handleAddClick, onEditProfileClick, onDelete }) {
+function Profile({
+  clothingItems,
+  onCardClick,
+  handleAddClick,
+  onEditProfileClick,
+  onDelete,
+  onCardLike,
+}) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -17,6 +24,7 @@ function Profile({ clothingItems, onCardClick, handleAddClick, onEditProfileClic
           onCardClick={onCardClick}
           onDelete={onDelete}
           onAddItem={handleAddClick}
+          onCardLike={onCardLike} // ✅ Pass it here
         />
       </div>
     </div>

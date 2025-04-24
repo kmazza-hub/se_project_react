@@ -5,7 +5,7 @@ import likeBtnImage from "../../images/like-btn.png";
 import likeBtnActiveImage from "../../images/like-btn-active.png";
 import "./ItemCard.css";
 
-function ItemCard({ item, onCardClick, onCardLikes }) {
+function ItemCard({ item, onCardClick, onCardLike, onDeleteClick }) {
   const currentUser = useContext(CurrentUserContext);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -21,15 +21,15 @@ function ItemCard({ item, onCardClick, onCardLikes }) {
       return;
     }
 
-    const previousLiked = isLiked;
+    const prevLiked = isLiked;
     setIsLiked(!isLiked);
 
-    const result = onCardLikes({ id: item._id, isLiked: !isLiked });
+    const result = onCardLike({ id: item._id, isLiked: !isLiked });
 
     if (result instanceof Promise) {
       result.catch((err) => {
         console.error("Failed to toggle like", err);
-        setIsLiked(previousLiked);
+        setIsLiked(prevLiked); 
       });
     }
   };

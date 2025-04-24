@@ -4,7 +4,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ItemCard from "../ItemCard/ItemCard";
 import "./ClothesSection.css";
 
-function ClothesSection({ clothingItems = [], onCardClick, onDelete, onAddItem }) {
+function ClothesSection({ clothingItems = [], onCardClick, onDelete, onAddItem, onCardLike }) {
   const currentUser = useContext(CurrentUserContext);
 
   const filteredItems = clothingItems.filter(
@@ -27,6 +27,7 @@ function ClothesSection({ clothingItems = [], onCardClick, onDelete, onAddItem }
               key={item._id}
               item={item}
               onCardClick={onCardClick}
+              onCardLike={onCardLike} 
               onDeleteClick={onDelete}
             />
           ))
