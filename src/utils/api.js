@@ -1,4 +1,8 @@
-const baseUrl = "http://localhost:3001"; // ✅ Correct base URL
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "http://api.keithswtwr.myserver.dns.com.crabdance.com:3001"
+    : "http://localhost:3001";
+
 
 // ✅ Helper to check fetch responses
 function checkResponse(res) {

@@ -1,6 +1,8 @@
 import { request } from "./api";
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = process.env.NODE_ENV === "production"
+  ? "https://api.keithswtwr.myserver.dns.com.crabdance.com"
+  : "http://localhost:3001";
 
 export const signup = (userData) => {
   return request(`${baseUrl}/signup`, {
